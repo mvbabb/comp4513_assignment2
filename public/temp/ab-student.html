@@ -1,0 +1,26 @@
+<link rel="import" href="bower_components\polymer\polymer.html">
+
+<dom-module id="ab-student">
+<template>
+
+<div>This is a student module Name: {{_sname}}</div>
+
+</template>
+
+
+<script>
+Polymer({
+is:"ab-student",
+ready:function(){
+  console.log("AStudent started perfectly");
+},
+properties:{
+  _sname:{
+    type:String,
+    value:"Name1 NameXXXXX"
+  }
+}
+
+});
+</script>
+</dom-module>

@@ -1,0 +1,15 @@
+{
+    "user1":{
+        "user_name":"admin",
+        "password":"admin123#",
+        "token":"coolAssToken",
+        "logToken":"true",
+        "level":"admin"},
+    "user2":{
+        "user_name":"normal",
+        "password":"normal123",
+        "token":"coolAssToken",
+        "logToken":"false",
+        "level":"regular"}
+    
+}

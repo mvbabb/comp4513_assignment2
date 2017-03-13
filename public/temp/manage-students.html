@@ -1,0 +1,24 @@
+<link rel="import" href="bower_components\polymer\polymer.html">
+<link rel="import" href="ab-student.html">
+<dom-module id="manage-students">
+<template>
+<ab-student id="student1"></ab-student>
+<ab-student id="student2"></ab-student>
+<button on-tap="getstudent">Change info</button>
+</template>
+
+
+<script>
+Polymer({
+is:"manage-students",
+ready:function(){
+},
+properties:{
+},
+getstudent:function(){
+  this.$.student1._sname="Student 1 name";
+  this.$.student2._sname="Student 2 name";
+}
+});
+</script>
+</dom-module>

@@ -1,0 +1,100 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="ab-student.html">
+
+<dom-module id="manage-students">
+  <template>
+    <ab-student id="student1"> </ab-student>
+    <ab-student id="student2"> </ab-student>
+      <ab-student id="student3"> </ab-student>
+    <button on-tap="getstudent1">Change info </button>
+      <button on-tap="getstudent2">Change info </button>
+      <button on-tap="getstudent3">Change info </button>
+      <button on-tap="getUpdated">Get Updated</button>
+  </template>
+  <script>
+  Polymer({
+    is: 'manage-students',
+    ready:function(){
+    },
+    properties:{
+    },
+    getstudent1:function(){
+_this=this;
+
+ 
+                
+                
+        var d = new Date()
+        this.$.student1.hideCard();
+      this.$.student1._sname="Michael";
+         this.$.student1._dept="Web";
+          this.$.student1._semester="Winter 2017";
+          this.$.student1._id="201596668";
+          this.$.student1._email="mbabb668@mtroyal.ca";
+         this.$.student1._mydate="Date:" + d.getDate() + "/ " + d.getMonth().toString() + "/ " + d.getFullYear();
+
+              
+      /*  this.$.student2._sname="Kwaku";
+         this.$.student2._dept="Health";
+          this.$.student2._semester="Winter 2017";
+          this.$.student2._id="123456789";
+          this.$.student2._email="kwakuao@mtroyal.ca";
+      this.$.student2._mydate= "Date:" + d.getDate() + "/ " + d.getMonth().toString() + "/ " + d.getFullYear();
+        
+        this.$.student3._sname="Jackie";
+         this.$.student3._dept="CompSci";
+          this.$.student3._semester="Winter 2017";
+          this.$.student3._id="987654321";
+          this.$.student3._email="jackiel@mtroyal.ca";
+      this.$.student3._mydate= "Date:" + d.getDate() + "/ " + d.getMonth().toString() + "/ " + d.getFullYear();
+      */
+    },
+        getstudent2:function(){
+_this=this;
+
+        var d = new Date()
+              this.$.student2.hideCard();
+        this.$.student2._sname="Kwaku";
+         this.$.student2._dept="Health";
+          this.$.student2._semester="Winter 2017";
+          this.$.student2._id="123456789";
+          this.$.student2._email="kwakuao@mtroyal.ca";
+      this.$.student2._mydate= "Date:" + d.getDate() + "/ " + d.getMonth().toString() + "/ " + d.getFullYear();
+        }
+      
+      ,
+        getstudent3:function(){
+_this=this;
+
+        var d = new Date()
+              this.$.student3.hideCard();
+        this.$.student3._sname="Jackie";
+         this.$.student3._dept="CompSci";
+          this.$.student3._semester="Winter 2017";
+          this.$.student3._id="987654321";
+          this.$.student3._email="jackiel@mtroyal.ca";
+      this.$.student3._mydate= "Date:" + d.getDate() + "/ " + d.getMonth().toString() + "/ " + d.getFullYear();
+            
+        },
+      getUpdated:function(){
+          _this=thisl
+          setInterval(function(){
+              _this.myfunction()
+          },3000);
+      },
+      myfunction: function(){
+          this.$.student1.hidecard()
+      }
+      
+ 
+      
+      
+
+      
+      
+      
+
+    }
+  );
+  </script>
+</dom-module>

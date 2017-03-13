@@ -1,0 +1,128 @@
+<!doctype html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="checkLoginAuth.js"></script>
+     <script  src="http://localhost:3002/secure_interface.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="user_info.json"></script>
+<script src="secure_interface.js"></script>
+</head>
+ 
+<!--<h1>SUCCESSFULLY LOGGED IN</h1>-->
+<body>
+<h2 id="head">User Info</h2>
+<div class="table-responsive">
+<table class="table table-striped ">
+    <tr><td>UserName</td><td id="userName"> </td></tr>
+    <tr><td>Name</td><td id="u_name"> </td></tr>
+    <tr><td>Access Level</td><td id="userLevel"> </td></tr>
+
+
+</table>
+</div>
+<!--<h2>Applications</h2>
+<div class="table-responsive">
+<table class="table table-striped ">
+<tr><td>Application:</td><td>App1</td></tr>
+
+
+</table>
+</div>-->
+
+
+
+<div>
+    <h2>User Options</h2>
+    
+    <form class="form-inline" method="post" action="http://localhost:3002/addApp">
+  <div class="form-group">
+    <label for="addApp">Add Application</label>
+    <input type="text" class="form-control" id="appName" placeholder="App Name" name="add_app_name">
+    <input type="text" class="form-control" id="appTokenName" placeholder="Token" name="add_token_name">
+  </div>
+          <button type="submit"id="addAppSubmit" class="btn btn-default">Add App</button>
+</form>
+    <br />
+    
+        <form class="form-inline" method="post" action="http://localhost:3002/removeApp">
+  <div class="form-group">
+    <label for="addApp">Remove Application</label>
+   <select name="appToModify" class="appSelector"></select>
+  </div>
+          <button type="submit"id="addAppSubmit" class="btn btn-default">Remove App</button>
+</form>
+    <br />
+    <!--<form class="form-inline">
+  <div class="form-group">
+    <label for="RemoveApp">Remove App</label>
+    <input type="text" class="form-control" id="removeApp" placeholder="App Name">
+  </div>
+                  <button type="submit" class="btn btn-default">Remove</button>
+</form>-->
+    <form class="form-inline" method="post" action="http://localhost:3002/token">
+  <div class="form-group">
+    <label for="generateToken">Renew Token</label>
+      <select name="changeToken" class="appSelector"></select>
+    <input type="text" class="form-control" id="modifyToken" name="newToken" placeholder="Token Name">
+  </div>
+                  <button type="submit" class="btn btn-default">Renew</button>
+</form>
+    
+    <br />
+    
+    <form class="form-inline" method="post" action="http://localhost:3002/add_admin">
+        <div class="form-group">
+    <label for="addUser">Add User</label>
+    <input type="text" class="form-control" id="user_name" placeholder="User Name" name="addAdmin">
+    <input type="password" class="form-control" id="add_password" placeholder="Password" name="addAdminPassword">
+    <input type="text" class="form-control" id="add_user" placeholder="Name" name="actualAdminName">
+            <select name="level">
+                <option value="admin">Admin</option>
+                <option value="regular">Regular</option>
+            </select>
+            <select name="appToAddUser" class="appSelector"></select>
+  </div>
+                  <button type="submit" class="btn btn-default">Add User</button>
+</form>
+    <br / >
+    
+       <form class="form-inline" method="post" action="http://localhost:3002/remove_admin">
+        <div class="form-group">
+    <label for="addUser">Remove User</label>
+   <!-- <input type="text" class="form-control" id="user_name" placeholder="User Name">-->
+    <select name="userToRemove" id="userToRemove"></select>
+           <!-- <select name="appToModify" id="appSelector"></select>-->
+  </div>
+                  <button type="submit" class="btn btn-default">Remove User</button>
+</form> 
+    
+    
+    <!--<form class="form-inline">
+        <div class="form-group">
+    <label for="Remove User">Remove User</label>
+    <input type="text" class="form-control" id="removeUser" placeholder="User Name">
+  </div>
+                  <button type="submit" class="btn btn-default">Remove</button>
+</form>-->
+    
+    <br />
+    
+    <form class="form-inline" method="post" action="http://localhost:3002/modify_admin">
+          <div class="form-group">
+    <label for="modifyUser">Modify User</label>
+    <input type="text" class="form-control" id="modifyUser" placeholder="New User Name" name="newUserName">
+    <select name="userToModify" id="userToModify"></select>
+   
+  </div>
+  <button type="submit" class="btn btn-default">Modify</button>
+</form>
+    
+    
+    
+    
+    
+    
+    
+</div>
+</body>
