@@ -94,6 +94,7 @@ form[role=login] {
 
 /**********************CONTENT*****************************/
 .media-body{color:black}
-.panel{border-radius:10px; max-width: 70%; margin-left:5%;}
+.panel{border-radius:10px; max-width: 70%; margin-left:20%;}
 .navbarbottommargin, footer .navbar{margin-bottom:0%;}
 .powered-by{margin-top:1.3%; color:white}
+.dropped{float:left; margin-left:3%}
