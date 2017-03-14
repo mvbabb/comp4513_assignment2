@@ -40,13 +40,14 @@ app.get('/login', function(req,res){
 
 
 app.get('/', function(req,res){
-    res.sendFile(__dirname + "/authentication_index.html");
+    res.sendFile(__dirname + "/yln_auth_index.html");
 });
 
 app.get('/secure', function(req,res){
     res.sendFile(__dirname + "/auth.html");
     //res.sendFile(__dirname + "/user_info.json");
 });
+
 
 app.get('/user_info', function(req,res){
     //res.sendFile(__dirname + "/auth.html");
@@ -89,7 +90,7 @@ app.post('/', function(req,res){
               jsonContent[x].logToken = "true";
               jsonContent = JSON.stringify(jsonContent);
               reader.writeFileSync("user_info.json",jsonContent);
-                     res.redirect("http://localhost:3001/secure");  
+                     res.redirect("http://localhost:3001/newsfeed");  
               }
           
           else{

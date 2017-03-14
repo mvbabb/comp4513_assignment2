@@ -34,16 +34,28 @@ app.use(function(req, res, next) {
 
 
 app.get('/', function(req,res){
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile(__dirname + "/YLN_app/index.html");
 });
 
 app.get('/readfile', function(req,res){
     var data = reader.readFileSync('index.html');
     res.send(data);
 });
+app.get('/newsfeed', function(req,res){
+     res.sendFile(__dirname + "/YLN_app/newsfeed.html");
+});
 
 app.get("/error", function(req,res) {
         res.sendFile(__dirname + "/error.html");
+        });
+app.get("/css", function(req,res) {
+        res.sendFile(__dirname + "/YLN_app/style.css");
+        });
+app.get("/yln-logo-white", function(req,res) {
+        res.sendFile(__dirname + "/YLN_app/YourLiveNews_White.png");
+        });
+app.get("/yln-logo", function(req,res) {
+        res.sendFile(__dirname + "/YLN_app/YourLiveNews.png");
         });
 
 app.get("/secure", function(req,res) {
