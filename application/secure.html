@@ -1,26 +1,153 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <head>
+    <link rel="stylesheet" href="http://localhost:3001/css" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="checkLogin.js">//CHANGE THIS LATER, VERY SIMPLE VERSION IS BEING USED</script>
     <script  src="http://localhost:3002/secure_interface.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">  
 <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="user_info.json"></script>-->
-</head>
+    <title>YourLiveNews</title>
+    </head>
+        <header>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#"><img src="http://localhost:3001/yln-logo-white"></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="http://localhost:3001">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sources<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">BBC News</a></li>
+            <li><a href="#">Business Insider</a></li>
+            <li><a href="#">Buzz Feed</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    <form class="navbar-form navbar-right">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    </div>
+  </div>
+</nav>
+    </header>
 <!--<h1>SUCCESSFULLY LOGGED IN</h1>-->
 <body>
-<h2 id="head">User Info</h2>
-<h3 id="appID">App1</h3>
-<div class="table-responsive">
-<table class="table table-striped ">
+     <div class="container float-md-left d-inline-block">
+  
+  <div class="row" id="pwd-container">
+    <div class="col-md-4"></div>
+    
+    <div class="col-md-4">
+      <section class="login-form">
+        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+          <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
+            <h2 class="text-center">Update User Info</h2>
+            <table class="table table-striped ">
     <tr><td>UserName</td><td id="userName"> </td></tr>
     <tr><td>Name</td><td id="u_name"> </td></tr>
-    <tr><td>Access Level</td><td id="userLevel"> </td></tr>
 
 
 </table>
+          <input type="text" id="uname" placeholder="Enter Username" required class="form-control input-lg"name="uname" required>
+           <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Password" required=""  name="psw">
+      
+          <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />-->
+          
+          
+          <div class="pwstrength_viewport_progress"></div>
+          
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Update</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
+          
+        </form>
+      </section>  
+      </div>
+      
+      
 
+  </div>
+  
+</div>   
+    <div class="container float-md-right d-inline-block">
+  
+  <div class="row" id="pwd-container">
+    <div class="col-md-4"></div>
     
+    <div class="col-md-4">
+      <section class="login-form">
+        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+          <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
+            <h2 class="text-center">Update User Info</h2>
+            <table class="table table-striped ">
+    <tr><td>UserName</td><td id="userName"> </td></tr>
+    <tr><td>Name</td><td id="u_name"> </td></tr>
+
+
+</table>
+          <input type="text" id="uname" placeholder="Enter Username" required class="form-control input-lg"name="uname" required>
+           <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Password" required=""  name="psw">
+      
+          <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />-->
+          
+          
+          <div class="pwstrength_viewport_progress"></div>
+          
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Update</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
+          
+        </form>
+      </section>  
+      </div>
+      
+      
+
+  </div>
+  
+</div>   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  <!--  
 <form class="form-inline" method="post" action="http://localhost:3002/new_user">
         <div class="form-group">
     <label for="addUser">Add User</label>
@@ -31,7 +158,24 @@
     
   </div>
                   <button type="submit" class="btn btn-default">Add User</button>
-</form>
+</form>-->
     
     </div></body>
+<footer>
+  <nav class="navbar navbar-inverse navbarbottommargin navbar-fixed-bottom">
+  <div class="container-fluid">
+    <div class="navbar-bottom">
+      <a class="navbar-brand" href="#"><img src="http://localhost:3001/yln-logo-white"></a>
+    </div>
+      <p class="text-right powered-by">Powered by: <a href="newsapi.org">NewsApi.org</a></p>
+   <!-- <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">Page 1</a></li>
+      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Page 3</a></li>
+    </ul>-->
+  </div>
+</nav> 
+    </footer>
+</html>
     
