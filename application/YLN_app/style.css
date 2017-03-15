@@ -107,7 +107,8 @@ form[role=login] {
     background-image: url(../YLN_app/hourglass.jpg); 
     position: relative;
     height: 100%;
-    text-shadow: 2px 2px #FFFFFF;
+    text-shadow: 2px 2px 2px #FFFFFF;
+    color:#000000!important;
 
 
 }
@@ -118,3 +119,5 @@ form[role=login] {
     box-shadow:1px 1px 4px rgba(0,0,0,0.4);
     padding:10px 40px;
 }
+
+.free-content{margin-bottom:4%}
