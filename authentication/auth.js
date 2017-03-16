@@ -90,7 +90,7 @@ app.post('/', function(req,res){
               jsonContent[x].logToken = "true";
               jsonContent = JSON.stringify(jsonContent);
               reader.writeFileSync("user_info.json",jsonContent);
-                     res.redirect("http://localhost:3001/secure");  
+                     res.redirect("http://localhost:3001/newsfeed");  
               }
           
           else{
