@@ -10,6 +10,38 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <title>YourLiveNews</title>
+	
+ 
+
+<script>
+$(document).ready(function(){
+
+  $.ajax({
+		url: "https://newsapi.org/v1/articles?source=associated-press&apiKey=f507ff22dca54c43b92817017a34d613",
+		dataType: 'json',
+		type: 'GET',
+		success: function (data) {
+		var htmlString = "";
+			var articles = data.articles;
+			for(var i = 0; i < articles.length; i++){
+				var article = articles[i];
+				var articleHtmlString = "<div class='panel panel-default'>";
+				articleHtmlString += "<div class='panel-body'>";
+				articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+				articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+				articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+				articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
+				articleHtmlString += "<p>" + article["description"] + "</p>";
+				articleHtmlString += "</div></div></div></div>";
+				htmlString += articleHtmlString;
+			}
+		
+		$(htmlString).insertBefore($("footer"));
+		
+		}});
+
+});
+</script>
     </head>
 
 <body>
@@ -154,9 +186,6 @@
   </div>
 </nav> 
     </footer>
-
- 
-
 
 
 </html>
