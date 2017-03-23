@@ -24,6 +24,7 @@ var btoa = require('btoa');
 var atob = require('atob');
 //var mongodb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
+var userDBJSON;
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
 //app.use(express.static("application"));
@@ -39,6 +40,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+//mongo DB test secion
 MongoClient.connect("mongodb://localhost:27017/YLN", function(err, db) {
   if(!err) {
     console.log("We are connected");
@@ -51,9 +53,13 @@ MongoClient.connect("mongodb://localhost:27017/YLN", function(err, db) {
     console.log("before the inserts!");
     collection.insert(doc1);
     collection.insert(doc2, {w:1}, function(err, result) {});
-    //collection.insert(lotsOfDocs, {w:1}, function(err, result) {});
-    var testResults = collection.find().each(function(err, doc) {
+    //asdasd
+    //find().each will grab the whole thing
+    //find().next will grab one at a time
+
+    collection.find().each(function(err, doc) {
       console.log(doc);
+
     });
     //console.log(testResults);
     db.close();
@@ -131,7 +137,7 @@ app.post('/', function(req,res){
     });
 
 app.post('/authentication_server', function(req,res){
-    console.log("secure server");
+    console.log("secure server accesed");
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
     var tokens = reader.readFileSync("app_token.json");
