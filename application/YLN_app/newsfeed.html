@@ -39,8 +39,40 @@ $(document).ready(function(){
 		$(htmlString).insertBefore($("footer"));
 		
 		}});
+    
+    
+    
+    $.ajax({
+        url:"https://newsapi.org/v1/sources?language=en",
+        dataType:'json',
+        type:'GET',
+        success: function(data){
+            var sourceString = "";
+            var sourceTarget = document.querySelector(".sourceList");
+            var sources = data.sources;
+            for(var i = 0; i < sources.length; i++){
+                var source = sources[i];
+                var sourceHtmlString = '<li><a href="#">' + source.name + '</a></li>';
+                sourceString += sourceHtmlString;
+            }
+            $(sourceString).appendTo(sourceTarget);
+            //alert(sourceString);
+        }
+    });
 
 });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </script>
     </head>
 
@@ -61,10 +93,7 @@ $(document).ready(function(){
         <li class="active"><a href="#">Home</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sources<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">BBC News</a></li>
-            <li><a href="#">Business Insider</a></li>
-            <li><a href="#">Buzz Feed</a></li>
+          <ul class="dropdown-menu " role="menu">
           </ul>
         </li>
         <li><a href="#">Pricing</a></li>
@@ -86,18 +115,23 @@ $(document).ready(function(){
      <div class="dropdown dropped favorite_drops">
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sources
   <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Buzzfeed</a></li>
-    <li><a href="#">CNN</a></li>
-    <li><a href="#"></a></li>
+  <ul class="dropdown-menu sourceList scrollable-menu">
+
   </ul>
 </div> 
          <div class="dropdown dropped favorite_drops">
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Topics
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li><a href="#">Tech</a></li>
-      <li><a href="#">Politics</a></li>
+    <li><a href="#">Business</a></li>
+      <li><a href="#">Entertainment</a></li>
+      <li><a href="#">Gaming</a></li>
+      <li><a href="#">General</a></li>
+      <li><a href="#">Music</a></li>
+      <li><a href="#">Science and Nature</a></li>
+      <li><a href="#">Sport</a></li>
+      <li><a href="#">Technology</a></li>
+      
 
   </ul>
 </div> 

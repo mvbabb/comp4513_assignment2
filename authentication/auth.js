@@ -128,11 +128,17 @@ app.post('/', function(req,res){
 
           else{
 
-              res.redirect("http://localhost:3001/error");
+              res.redirect("http://localhost:3001");
 
             }
               }
+        
         };
+    if(authResponse == "false"){
+
+              res.redirect("http://localhost:3001");
+
+            };
 
     });
 
