@@ -16,7 +16,7 @@
 
 */
 
-
+var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
 var reader = require('fs');
@@ -36,6 +36,13 @@ app.use(bodyParse.urlencoded({extended:false}));
 var assert = require('assert');
 var url = "mongodb://localhost:27017/YLN";
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
 "name":"Michael", "token":"coolAssToken", "logToken":"true", "level":"admin",
 "feeds" : [
@@ -48,11 +55,6 @@ var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
 
 
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 //mongo DB test secion
 MongoClient.connect(url, function(err, db) {
@@ -194,7 +196,7 @@ app.post('/authentication_server', function(req,res){
 
     });
 
-app.post('/getInfo',function(req,res){
+app.post('/getInfo',function(req,res,next){
 	//req.body.uname;
   var session = exampleUser;
   res.setHeader('Content-Type', 'application/json');

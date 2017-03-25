@@ -6,6 +6,7 @@
     "express": "^4.9.0",
     "express-session": "^1.15.1",
     "fs": "^0.0.2",
-    "mongodb": "^2.2.19"
+    "mongodb": "^2.2.19",
+    "request": "^2.81.0"
   }
 }

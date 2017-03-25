@@ -11,7 +11,7 @@
 */
 
 
-
+var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
 var session = require('express-session');
@@ -28,9 +28,9 @@ app.use(session({resave:true, saveUninitialized: true, secret:"secret"}));
 
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 
@@ -132,15 +132,28 @@ app.post('/saveUsername',function(req,res){
   }
 });
 	
-app.post('/info',function(req,res){
-      $.ajax({
-      method: 'POST',
-      url: 'http://localhost:3002/getInfo',
-	  data: req.body.uname,
-      success: function(data) {
-        req.session = data;
-      }
-    });
+app.post('/info',function(req,res,next){
+// Set the headers
+var headers = {
+    'User-Agent':       'MADS/0.0.1',
+    'Content-Type':     'application/x-www-form-urlencoded'
+}
+
+// Configure the request
+var options = {
+    url: 'http://localhost:3002/getInfo',
+    method: 'POST',
+    headers: headers,
+    form: {'token': 'done'}
+}
+
+// Start the request
+request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+        console.log(body)
+    }
+})
 });
 
 app.post('/favorites',function(req,res){
