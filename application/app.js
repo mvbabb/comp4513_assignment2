@@ -138,6 +138,12 @@ app.post('/info',function(req,res){
   res.send(JSON.stringify({"token": "success", "username":session.username}));
 });
 
+app.post('/favorites',function(req,res){
+  var session = req.session;
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "favorites":session.favorites}));
+});
+
 	
 var server = app.listen(3001, function(){
     var host = "10.239.32.182";
