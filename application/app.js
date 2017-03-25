@@ -14,6 +14,7 @@
 
 var express = require('express');
 var bodyParse = require("body-parser");
+var session = require('express-session');
 var reader = require('fs');
 var path = require('path');
 var app=express();
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname)));
 //app.use(express.static("images"));
 //app.use('/static', express.static('public'));
 app.use(bodyParse.urlencoded({extended:false}));
+app.use(session({resave:true, saveUninitialized: true, secret:"secret"}));
 
 
 app.use(function(req, res, next) {
