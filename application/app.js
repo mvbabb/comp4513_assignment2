@@ -133,9 +133,14 @@ app.post('/saveUsername',function(req,res){
 });
 	
 app.post('/info',function(req,res){
-  var session = req.session;
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "username":session.username}));
+      $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3002/getInfo',
+	  data: req.body.uname,
+      success: function(data) {
+        req.session = data;
+      }
+    });
 });
 
 app.post('/favorites',function(req,res){

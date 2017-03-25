@@ -194,7 +194,12 @@ app.post('/authentication_server', function(req,res){
 
     });
 
-
+app.post('/getInfo',function(req,res){
+	//req.body.uname;
+  var session = exampleUser;
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "user":session}));
+});
 
 
 app.post('/new_user', function(req,res){
