@@ -45,6 +45,8 @@ app.get('/readfile', function(req,res){
 });
 app.get('/newsfeed', function(req,res){
      res.sendFile(__dirname + "/YLN_app/newsfeed.html");
+	 req.session.type = "Login";
+	 console.log(req.session.type);
 });
 
 app.get("/error", function(req,res) {
