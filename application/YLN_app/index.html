@@ -54,7 +54,8 @@
 		<div class="jumbotron">
           <h1>Welcome To Your Live News Feed</h1>
           <p>The new site on the block for keeping up to date with topics and issues aroung the world. Topics include tech, sports, politics, and pretty much anything else going on</p>
-          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Login</button>
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#loginModal">Login</button>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newUserModal">Create Account</button>
         </div>
 	</div>
 	
@@ -68,7 +69,7 @@
     
     
     <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="loginModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -92,9 +93,52 @@
           <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Login</button>
             <!--<input type="checkbox"  checked="checked"> Remember me
           <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
-          <div>
-            <a href="#">Create account</a> or <a href="#">reset password</a>
-          </div>
+          
+        </form>
+        
+        <div class="form-links">
+          <a href="http://localhost:3001/">www.yourlivenews.com</a>
+        </div>
+      </section>  
+      </div>
+  </div>
+  
+</div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+    
+    
+    
+    <div id="newUserModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Please create an account to join YourLiveNews</h4>
+      </div>
+      <div class="modal-body">
+    <!--<div class="container">-->
+  <div class="row login-popup" id="pwd-container">
+    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <section class="login-form">
+        <form method="post" action="http://localhost:3002/" role="login">
+          <img src="../YLN_app/YourLiveNews.png" class="img-responsive" alt="" />
+          <input type="text" id="uname" placeholder="Enter Username" required class="form-control input-lg"name="uname" required>
+           <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Password" required=""  name="psw">
+            <input type="password" id="unpwd2" class="form-control input-lg" id="password2" placeholder="Password" required=""  name="psw2">
+          <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />--> 
+          <div class="pwstrength_viewport_progress"></div> 
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Create User</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
           
         </form>
         
