@@ -1,253 +1,226 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- css -->
-<link rel="stylesheet" href="../YLN_app/style.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <title>YourLiveNews</title>
-	
- 
+        <!-- css -->
+        <link rel="stylesheet" href="../YLN_app/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <title>YourLiveNews</title>
 
-<script>
-$(document).ready(function(){
 
-  $.ajax({
-		url: "https://newsapi.org/v1/articles?source=associated-press&apiKey=f507ff22dca54c43b92817017a34d613",
-		dataType: 'json',
-		type: 'GET',
-		success: function (data) {
-		var htmlString = "";
-			var articles = data.articles;
-			for(var i = 0; i < articles.length; i++){
-				var article = articles[i];
-				var articleHtmlString = "<div class='panel panel-default'>";
-				articleHtmlString += "<div class='panel-body'>";
-				articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
-				articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
-				articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
-				articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
-				articleHtmlString += "<p>" + article["description"] + "</p>";
-				articleHtmlString += "</div></div></div></div>";
-				htmlString += articleHtmlString;
-			}
-		
-		$(htmlString).insertBefore($("footer"));
-		
-		}});
-    
-    
-    
-    $.ajax({
-        url:"https://newsapi.org/v1/sources?language=en",
-        dataType:'json',
-        type:'GET',
-        success: function(data){
-            var sourceString = "";
-            var sourceTarget = document.querySelector(".sourceList");
-            var sources = data.sources;
-            for(var i = 0; i < sources.length; i++){
-                var source = sources[i];
-                var sourceHtmlString = '<li><a href="#">' + source.name + '</a></li>';
-                sourceString += sourceHtmlString;
-            }
-            $(sourceString).appendTo(sourceTarget);
-            //alert(sourceString);
-        }
-    });
 
-});
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</script>
+        <script>
+            $(document).ready(function () {
+                
+                loadFeed("buzzfeed");
+                
+                
+                
+
+                $.ajax({
+                    url: "https://newsapi.org/v1/sources?language=en",
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        var sourceString = "";
+                        var sourceTarget = document.querySelector(".sourceList");
+                        var sources = data.sources;
+                        for (var i = 0; i < sources.length; i++) {
+                            var source = sources[i];
+                            var sourceHtmlString = '<li><a class="sourceLink" title="' + source.id + '">' + source.name + '</a></li>';
+                            sourceString += sourceHtmlString;
+                        }
+                        $(sourceString).appendTo(sourceTarget);
+                        //alert(sourceString);
+
+                        $('a.sourceLink').on('click', function (e) {
+                            e.preventDefault();
+                            var source = $(this).attr('title');
+                            $('#newsFeed').html("");
+                            loadFeed(source);
+                        });
+                    }
+                });
+
+
+
+                function loadFeed(source){
+                     $.ajax({
+                    url: "https://newsapi.org/v1/articles?source=" + source + "&apiKey=f507ff22dca54c43b92817017a34d613",
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        var htmlString = "";
+                        var articles = data.articles;
+                        for (var i = 0; i < articles.length; i++) {
+                            var article = articles[i];
+                            var articleHtmlString = "<div class='panel panel-default'>";
+                            articleHtmlString += "<div class='panel-body'>";
+                            articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                            articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                            articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                            articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
+                            articleHtmlString += "<p>" + article["description"] + "</p>";
+                            articleHtmlString += "</div></div></div></div>";
+                            htmlString += articleHtmlString;
+                        }
+                        //console.log(htmlString);
+                        //$(htmlString).insertBefore($("footer"));
+                        $('#newsFeed').append(htmlString);
+
+                    }});
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
     </head>
 
-<body>
-    <header>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sources<span class="caret"></span></a>
-          <ul class="dropdown-menu " role="menu">
-          </ul>
-        </li>
-        <li><a href="#">Pricing</a></li>
-        <li><a href="#">About</a></li>
-          <li><a href="http://localhost:3001/secure">Settings</a></li>
-      </ul>
-    <form class="navbar-form navbar-right">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Search</button>
-    </form>
-    </div>
-  </div>
-</nav>
-    </header>
-    
-   <div class="col-md-1">
-     <div class="dropdown dropped favorite_drops">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sources
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu sourceList scrollable-menu">
+    <body>
+        <header>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>                        
+                        </button>
+                        <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sources<span class="caret"></span></a>
+                                <ul class="dropdown-menu " role="menu">
+                                </ul>
+                            </li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="http://localhost:3001/secure">Settings</a></li>
+                        </ul>
+                        <form class="navbar-form navbar-right">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </header>
 
-  </ul>
-</div> 
-         <div class="dropdown dropped favorite_drops">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Topics
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Business</a></li>
-      <li><a href="#">Entertainment</a></li>
-      <li><a href="#">Gaming</a></li>
-      <li><a href="#">General</a></li>
-      <li><a href="#">Music</a></li>
-      <li><a href="#">Science and Nature</a></li>
-      <li><a href="#">Sport</a></li>
-      <li><a href="#">Technology</a></li>
-      
+        <div class="col-md-1">
+            <div class="dropdown dropped favorite_drops">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sources
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu sourceList scrollable-menu">
 
-  </ul>
-</div> 
-             <div class="dropdown dropped favorite_drops">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Sources
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Tech</a></li>
-      <li><a href="#">Politics</a></li>
+                </ul>
+            </div> 
+            <div class="dropdown dropped favorite_drops">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Topics
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Entertainment</a></li>
+                    <li><a href="#">Gaming</a></li>
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Music</a></li>
+                    <li><a href="#">Science and Nature</a></li>
+                    <li><a href="#">Sport</a></li>
+                    <li><a href="#">Technology</a></li>
 
-  </ul>
-</div> 
-             <div class="dropdown dropped favorite_drops">
-  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Topics
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#">Tech</a></li>
-      <li><a href="#">Politics</a></li>
 
-  </ul>
-</div> 
-    
-    </div>
-    
-    
-<!-- This is where the live feed goes, each panal is a new article -->
+                </ul>
+            </div> 
+            <div class="dropdown dropped favorite_drops">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Sources
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Tech</a></li>
+                    <li><a href="#">Politics</a></li>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px"><!--This is where the link for the pic go's-->
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/"><!--Link for the article title goes in that href--> Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4><!--title of the article is here-->
-                    <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p> <!--This is where the description goes-->
-                </div>
-            </div>
+                </ul>
+            </div> 
+            <div class="dropdown dropped favorite_drops">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Topics
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Tech</a></li>
+                    <li><a href="#">Politics</a></li>
+
+                </ul>
+            </div> 
+
         </div>
-    </div>
-    
-  <!-- This is the end of the first article -->
-    
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/2017_02_27_bolt_threads0349-e1489105830773.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+        
+        <div id="newsFeed">
+
+
+        <!-- This is where the live feed goes, each panel is a new article
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left media-middle">
+                            <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                            <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p> 
+                        </div>
+                    </div>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/bolt-threads-debuts-its-first-product-a-314-tie-made-from-spiderwebs/">Bolt Threads debuts its first product, a $314 tie made from spiderwebs</a></h4>
-                    <p>It may not look like a bunch of cobwebs, but the tie you see above was spun from the same material spiders spin out from their behinds. The difference is this..</p>
-                </div>
-            </div>
+            </div> -->
+
+        <!-- This is the end of the first article -->
+        
         </div>
-    </div>
-    
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img src="https://tctechcrunch2011.files.wordpress.com/2016/11/ba55e41872394a70b14894e43c8210ce.jpeg?w=640&h=397&crop=1" class="media-object" style="width:100px">
+
+    <footer>
+        <nav class="navbar navbar-inverse navbarbottommargin navbar-bottom">
+            <div class="container-fluid">
+                <div class="navbar-bottom">
+                    <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/uber-runs-into-trouble-in-thailand-and-hong-kong/">Regulators clamp down on UberX in Hong Kong and Thailand</a></h4>
-                    <p>Uber's crisis PR activities have returned to relative normality in Asia after the U.S. firm ran into fresh issues with government regulators in two countries..</p>
-                </div>
+                <p class="text-right powered-by">Powered by: <a href="newsapi.org">NewsApi.org</a></p>
+                <!-- <ul class="nav navbar-nav">
+                   <li class="active"><a href="#">Home</a></li>
+                   <li><a href="#">Page 1</a></li>
+                   <li><a href="#">Page 2</a></li>
+                   <li><a href="#">Page 3</a></li>
+                 </ul>-->
             </div>
-        </div>
-    </div>
-    
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img src="https://tctechcrunch2011.files.wordpress.com/2017/02/gettyimages-489846782.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/09/oculus-cto-john-carmack-is-suing-zenimax-for-22-5-million/">Oculus CTO John Carmack is suing ZeniMax for $22.5 million</a></h4>
-                    <p>The feud between Oculus and ZeniMax Media is opening up once again, this time with the CTO of Oculus, John Carmack, suing his former employer for earnings..</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img src="https://cdn3.tnwcdn.com/wp-content/blogs.dir/1/files/2017/03/sophia-yeres-1-of-3.jpg" class="media-object" style="width:100px">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading"><a href="https://thenextweb.com/voice/2017/03/10/alexa-siri-make-terrible-companions/">Why Alexa and Siri would make terrible companions #SXSW</a></h4>
-                    <p>If Alexa understood your needs and anticipated your decisions, would you love it or would it annoy the crap out of you? Sophia Yeres of Huge, a Brooklyn-based digital marketing agency, presented a talk at SXSW called “The Risks of the Quantified Mind.” She spoke about the future of voice-driven interfaces, and the potential of …</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    </body>
-    
-           <footer>
-  <nav class="navbar navbar-inverse navbarbottommargin navbar-bottom">
-  <div class="container-fluid">
-    <div class="navbar-bottom">
-      <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
-    </div>
-      <p class="text-right powered-by">Powered by: <a href="newsapi.org">NewsApi.org</a></p>
-   <!-- <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>-->
-  </div>
-</nav> 
+        </nav> 
     </footer>
 
-
+    </body>
 </html>
