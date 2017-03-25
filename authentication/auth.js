@@ -25,7 +25,7 @@ var app=express();
 var btoa = require('btoa');
 var atob = require('atob');
 //var mongodb = require('mongodb');
-var MongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb').MongoClient;
 var userDBJSON;
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
@@ -36,14 +36,10 @@ app.use(bodyParse.urlencoded({extended:false}));
 var assert = require('assert');
 var url = "mongodb://localhost:27017/YLN";
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-
-var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
+// "_id" : "0100",
+//mongo will auto-set the _key field if I dont.
+//if username and password match, save that ID on login
+var exampleUser= {"user_name" : "user1", "password":"pass",
 "name":"Michael", "token":"coolAssToken", "logToken":"true", "level":"admin",
 "feeds" : [
   { "feed_id":"0001", "feed_name":"feed1", "sources": [ "bbc", "buzzfeed", "cnn"] },
@@ -56,8 +52,14 @@ var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
 
 
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 //mongo DB test secion
-MongoClient.connect(url, function(err, db) {
+mongo.connect(url, function(err, db) {
   if(!err) {
     console.log("We are connected");
 
@@ -67,9 +69,8 @@ MongoClient.connect(url, function(err, db) {
     var doc2 = {'hello':'doc2', 'key':'2'};
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
     console.log("before the inserts!");
-    //collection.insert(doc1);
+    //collection.insert(exampleUser);
     //collection.insert(doc2, {w:1}, function(err, result) {});
-    //asdasd
     //find().each will grab the whole thing
     //find().next will grab one at a time
 
@@ -82,6 +83,24 @@ MongoClient.connect(url, function(err, db) {
   }
 });
 //end mongo test section
+
+//mongDB request options
+app.post('/get-all-data', function(req, res){
+  var resultArray = [];
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var cursor = db.collection('users').find();
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      resultArray.push(doc);
+    }, function() {
+      db.close();
+      console.log(resultArray);
+      res.send(resultArray);
+    });
+  });
+});
+
 
 
 
