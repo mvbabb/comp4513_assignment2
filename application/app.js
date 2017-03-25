@@ -120,6 +120,25 @@ app.get('/login', function(req,res){
     else{
         res.sendFile(__dirname + "/secure.html");
     }});*/
+	
+app.post('/saveUsername',function(req,res){
+  if(req.session.uname){
+	  req.session.uname = req.body.uname;
+	  res.setHeader('Content-Type', 'application/json');
+		res.send(JSON.stringify({"token": "success"}));
+  }else{
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify({"token": "fail"}));
+  }
+});
+	
+app.post('/info',function(req,res){
+  var session = req.session;
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "username":session.username}));
+});
+
+	
 var server = app.listen(3001, function(){
     var host = "10.239.32.182";
     var port = server.address().port;
