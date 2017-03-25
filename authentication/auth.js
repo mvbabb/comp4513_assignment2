@@ -41,7 +41,12 @@ var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
 "feeds" : [
   { "feed_id":"0001", "feed_name":"feed1", "sources": [ "bbc", "buzzfeed", "cnn"] },
   { "feed_id":"0002", "feed_name":"feed2", "sources": [ "bbc", "buzzfeed", "cnn"] }
-] };
+],
+"favorites" : [
+  { "author":"testAuthor", "description":"lots of text description", "publishedAt":"2017-03-25", "title":"FakeTitle", "url":"www.google.com", "urlToImage":"www.google.com/news"},
+  { "author":"testAuthor2", "description":"lots of text description2", "publishedAt":"2017-03-22", "title":"FakeTitle2", "url":"www.google.com", "urlToImage":"www.google.com"}] };
+
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
