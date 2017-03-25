@@ -65,7 +65,7 @@
                             articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
                             articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
                             articleHtmlString += "<p>" + article["description"] + "</p>";
-                            articleHtmlString += "</div></div></div></div>";
+                            articleHtmlString += "</div><div class='media-right media-middle'><img src='http://i.newsapi.org/associated-press-s.png' width='60px'></div></div></div></div>";
                             htmlString += articleHtmlString;
                         }
                         //console.log(htmlString);
@@ -186,7 +186,7 @@
         <div id="newsFeed">
 
 
-        <!-- This is where the live feed goes, each panel is a new article -->
+        <!-- This is where the live feed goes, each panel is a new article 
             
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -194,17 +194,18 @@
                         <div class="media-left media-middle">
                             <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
                         </div>
-                          <div class="media-right media-middle">
-    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
-  </div>
+ 
                         <div class="media-body">
                             <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
                             <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p> 
                         </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
                     </div>
                 </div>
             </div> 
-
+-->
         <!-- This is the end of the first article -->
         
         </div>
