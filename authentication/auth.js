@@ -83,6 +83,7 @@ mongo.connect(url, function(err, db) {
 });
 //end mongo test section
 
+//mongDB request options
 app.post('/get-all-data', function(req, res){
   var resultArray = [];
   mongo.connect(url, function(err, db) {
@@ -97,7 +98,6 @@ app.post('/get-all-data', function(req, res){
       res.send(resultArray);
     });
   });
-
 });
 
 
