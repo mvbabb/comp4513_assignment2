@@ -11,8 +11,10 @@
 
 -adminUsername: admin
 -adminPassword: admin123#
-*/
 
+{"user_name":"YWRtaW4=","name":"Michael","password":"YWRtaW4xMjMj","token":"coolAssToken","logToken":"true","level":"admin"}
+
+*/
 
 
 var express = require('express');
@@ -31,8 +33,15 @@ app.use(express.static(path.join(__dirname)));
 //app.use(express.static("images"));
 //app.use('/static', express.static('public'));
 app.use(bodyParse.urlencoded({extended:false}));
+var assert = require('assert');
+var url = "mongodb://localhost:27017/YLN";
 
-
+var exampleUser= { "_id" : "0100", "user_name" : "user1", "password":"pass",
+"name":"Michael", "token":"coolAssToken", "logToken":"true", "level":"admin",
+"feeds" : [
+  { "feed_id":"0001", "feed_name":"feed1", "sources": [ "bbc", "buzzfeed", "cnn"] },
+  { "feed_id":"0002", "feed_name":"feed2", "sources": [ "bbc", "buzzfeed", "cnn"] }
+] };
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -41,7 +50,7 @@ app.use(function(req, res, next) {
 });
 
 //mongo DB test secion
-MongoClient.connect("mongodb://localhost:27017/YLN", function(err, db) {
+MongoClient.connect(url, function(err, db) {
   if(!err) {
     console.log("We are connected");
 
@@ -64,8 +73,10 @@ MongoClient.connect("mongodb://localhost:27017/YLN", function(err, db) {
     //console.log(testResults);
     db.close();
   }
-
 });
+//end mongo test section
+
+
 
 app.get('/login', function(req,res){
     res.send("<h1 id='test' style='color:red'>hi there: I am in the root of Michael Babb</h1>");
@@ -132,7 +143,7 @@ app.post('/', function(req,res){
 
             }
               }
-        
+
         };
     if(authResponse == "false"){
 
