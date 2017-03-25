@@ -63,12 +63,12 @@ app.get("/yln-logo", function(req,res) {
         });
 
 app.get("/secure", function(req,res) {
-    
-    
-    
         res.sendFile(__dirname + "/secure.html");
         });
 
+app.get("/home", function(req,res) {
+        res.sendFile(__dirname + "/user_home.html");
+        });
 
 
 
