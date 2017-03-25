@@ -65,8 +65,8 @@ MongoClient.connect(url, function(err, db) {
     var doc2 = {'hello':'doc2', 'key':'2'};
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
     console.log("before the inserts!");
-    collection.insert(doc1);
-    collection.insert(doc2, {w:1}, function(err, result) {});
+    //collection.insert(doc1);
+    //collection.insert(doc2, {w:1}, function(err, result) {});
     //asdasd
     //find().each will grab the whole thing
     //find().next will grab one at a time
