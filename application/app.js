@@ -11,7 +11,7 @@
 */
 
 
-
+var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
 var session = require('express-session');
@@ -28,9 +28,9 @@ app.use(session({resave:true, saveUninitialized: true, secret:"secret"}));
 
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 
@@ -63,12 +63,12 @@ app.get("/yln-logo", function(req,res) {
         });
 
 app.get("/secure", function(req,res) {
-    
-    
-    
         res.sendFile(__dirname + "/secure.html");
         });
 
+app.get("/home", function(req,res) {
+        res.sendFile(__dirname + "/user_home.html");
+        });
 
 
 
@@ -132,10 +132,28 @@ app.post('/saveUsername',function(req,res){
   }
 });
 	
-app.post('/info',function(req,res){
-  var session = req.session;
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "username":session.username}));
+app.post('/info',function(req,res,next){
+// Set the headers
+var headers = {
+    'User-Agent':       'MADS/0.0.1',
+    'Content-Type':     'application/x-www-form-urlencoded'
+}
+
+// Configure the request
+var options = {
+    url: 'http://localhost:3002/getInfo',
+    method: 'POST',
+    headers: headers,
+    form: {'token': 'done'}
+}
+
+// Start the request
+request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+        console.log(body)
+    }
+})
 });
 
 app.post('/favorites',function(req,res){
