@@ -66,8 +66,6 @@ mongo.connect(url, function(err, db) {
 
     db.createCollection('users', function(err, collection) {});
     var collection = db.collection('users');
-    var doc1 = {'hello':'doc1', 'key':'1'};
-    var doc2 = {'hello':'doc2', 'key':'2'};
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
     //collection.insert(exampleUser);
     //collection.insert(doc2, {w:1}, function(err, result) {});
@@ -86,7 +84,6 @@ mongo.connect(url, function(err, db) {
     console.log('Item inserted');
   })};
   //-----------------------------------------------------------------
-    //db.close();
 
 
     collection.find().each(function(err, doc) {
@@ -165,8 +162,6 @@ app.post('/', function(req,res){
       })});
     };
 
-
-
     var tokens = reader.readFileSync("app_token.json");
     var appContent = JSON.parse(tokens);
     var user_name_node=req.body.uname;
@@ -177,7 +172,6 @@ app.post('/', function(req,res){
     for(x in jsonContent){
         jsonContent[x].logToken = "false";
     }
-
 
     for (x in jsonContent){
       if (atob(jsonContent[x].user_name) == user_name_node){
@@ -252,12 +246,63 @@ app.post('/getInfo',function(req,res,next){
 });
 
 
+function getAllUserData(callback){
+  var resultArray = [];
+  var stringResp = "";
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var cursor = db.collection('users').find();
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      //console.log("indiv doc test: "+JSON.stringify(doc));
+      resultArray.push(doc);
+
+    }, function() {
+      db.close();
+      stringResp = JSON.stringify(resultArray);
+      newJSON= '{"users":'+stringResp+'}'; //had to add this to avoid parsing issues
+      //console.log("single array entry test : "+resultArray);
+      callback(null, newJSON);
+    }
+  );
+  });
+}
+
+
+
 app.post('/new_user', function(req,res){
     console.log("entering new_user on secure server");
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
-    //console.log("JSON Content: "+json);
-    var cont = "true";
+var cont="true";
+
+    getAllUserData(function(err, result){
+      //console.log("in new_user:: "+result);
+
+    var JSONresult = JSON.parse(result);
+    var user_name_node=btoa(req.body.uname);
+    var password_node=btoa(req.body.psw);
+    var actual_name = req.body.actualname;
+    console.log("JSON test: "+JSONresult.users[0].user_name);
+      for(x in JSONresult.users){
+        console.log("loop test: "+JSONresult.users[x].user_name);
+        if(JSONresult.users[x].user_name == user_name_node){
+          cont="false";
+          console.log("username already exists, cancelling new user");
+        }
+      }
+      if(cont == "true"){
+      console.log("new user name confirmed");
+
+
+
+    }
+
+
+
+    }); //end of getAllUserData callback
+
+
     for(x in jsonContent){
         console.log(jsonContent[x].user_name + ", "+req.body.uname);
         if(jsonContent[x].user_name == req.body.uname){
