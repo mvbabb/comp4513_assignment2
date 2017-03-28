@@ -98,8 +98,6 @@ var userinfo={
 
 
 app.get('/login', function(req,res){
-    
-    
     var secureServer = app.listen(3002, function(){
     var secureHost = "10.239.32.182";
     var securePort = secureServer.address().port;
@@ -107,8 +105,8 @@ app.get('/login', function(req,res){
     })});         
   
 app.post('/saveUsername',function(req,res){
-  if(req.session.uname){
-	  req.session.uname = req.body.uname;
+  if(req.session.user_name){
+	  req.session.user_name = req.body.uname;
 	  res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
   }else{
@@ -149,17 +147,24 @@ app.post('/favorites',function(req,res){
 app.post('/feeds',function(req,res){
   var session = req.session;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "favorites":session.feeds}));
+  res.send(JSON.stringify({"token": "success", "feeds":session.feeds}));
 });
 
 app.post('/loggedIn',function(req,res){
   var session = req.session;
   if(session){
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "favorites":session.logToken}));
+  res.send(JSON.stringify({"token": "success", "logToken":session.logToken}));
   }
 });
 
+app.post('/user_name',function(req,res){
+  var session = req.session;
+  if(session){
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "user_name":session.user_name}));
+  }
+});
 	
 var server = app.listen(3001, function(){
     var host = "10.239.32.182";
