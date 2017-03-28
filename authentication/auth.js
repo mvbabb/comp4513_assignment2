@@ -59,6 +59,7 @@ app.use(function(req, res, next) {
 });
 
 //mongo DB test secion
+
 mongo.connect(url, function(err, db) {
   if(!err) {
     console.log("We are connected");
@@ -68,11 +69,22 @@ mongo.connect(url, function(err, db) {
     var doc1 = {'hello':'doc1', 'key':'1'};
     var doc2 = {'hello':'doc2', 'key':'2'};
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
-    console.log("before the inserts!");
+    //console.log("before the inserts!");
     //collection.insert(exampleUser);
     //collection.insert(doc2, {w:1}, function(err, result) {});
     //find().each will grab the whole thing
     //find().next will grab one at a time
+    var json = reader.readFileSync("user_info.json");
+
+    db.collection('users').deleteMany(); //USE TO CLEAR WHOLE DB FOR FRESH RUN
+    var jsonContent = JSON.parse(json);
+    for(x in jsonContent){
+    db.collection('users').insertOne(jsonContent[x], function(err, result) {
+      assert.equal(null, err);
+    console.log('Item inserted');
+  })};
+    //db.close();
+
 
     collection.find().each(function(err, doc) {
       console.log(doc);
@@ -82,6 +94,19 @@ mongo.connect(url, function(err, db) {
     db.close();
   }
 });
+
+/*var json = reader.readFileSync("user_info.json");
+var jsonContent = JSON.parse(json);
+for(x in jsonContent){
+  //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    db.collection('users').insertOne(jsonContent[x], function(err, result) {
+      assert.equal(null, err);
+    console.log('Item inserted');
+    db.close();
+  })});
+};*/
 //end mongo test section
 
 //mongDB request options
@@ -138,6 +163,19 @@ app.post('/', function(req,res){
 
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
+    for(x in jsonContent){
+      //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
+      mongo.connect(url, function(err, db) {
+        assert.equal(null, err);
+        db.collection('users').insertOne(jsonContent[x], function(err, result) {
+          assert.equal(null, err);
+        console.log('Item inserted');
+        db.close();
+      })});
+    };
+
+
+
     var tokens = reader.readFileSync("app_token.json");
     var appContent = JSON.parse(tokens);
     var user_name_node=req.body.uname;
@@ -224,16 +262,19 @@ app.post('/getInfo',function(req,res,next){
 
 
 app.post('/new_user', function(req,res){
-    console.log("adding new user on secure server");
+    console.log("entering new_user on secure server");
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
+    //console.log("JSON Content: "+json);
     var cont = "true";
     for(x in jsonContent){
-        if(jsonContent[x].user_name == req.body.uname)
-        cont = "false";
+        console.log(jsonContent[x].user_name + ", "+req.body.uname);
+        if(jsonContent[x].user_name == req.body.uname){
+        cont = "false";}
     }
 
-    if(cont == true){
+    if(cont == "true"){
+      console.log("continuing");
     var totalUsers = Object.keys(jsonContent).length + 1;
     jsonContent = JSON.stringify(jsonContent);
     var user_name_node=btoa(req.body.uname);
@@ -243,16 +284,22 @@ app.post('/new_user', function(req,res){
     //var appContent = JSON.parse(tokens);
     var newUser = "";
     newUser =' , "user' + totalUsers +'": {"user_name":"'+ user_name_node + '","name":"' + actual_name + '","password":"' + password_node + '","token":"coolAssToken", "logToken":"false","level":"regular"}} ';
-
         jsonContent = jsonContent.substr(0,jsonContent.length - 1);
         jsonContent = jsonContent + newUser;
     console.log(jsonContent);
     console.log("Username:" + user_name_node + " Password:" + password_node);
-    reader.writeFileSync("user_info.json",jsonContent);
 
+    //WRITING TO FILE STOPPED HERE
+    //reader.writeFileSync("user_info.json",jsonContent);
+
+    var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
+    actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [], "favorites" : [] }';
+
+    console.log("new mongo user: "+NewMongoUser);
     res.redirect("http://localhost:3001/secure");
 
-  }else{res.redirect("http://localhost:3001/secure")}});
+  }else{res.redirect("http://localhost:3001/secure")}
+});
 
 
 
