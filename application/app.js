@@ -133,7 +133,9 @@ request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
         req.session = body;
-		console.log(req.session);
+		var dude = body;
+		console.log(dude.token);
+		console.log(dude);
     }
 })
 });
@@ -152,18 +154,18 @@ app.post('/feeds',function(req,res){
 
 app.post('/loggedIn',function(req,res){
   var session = req.session;
-  if(session){
+
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "logToken":session.logToken}));
-  }
+ 
 });
 
 app.post('/user_name',function(req,res){
   var session = req.session;
-  if(session){
+
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "user_name":session.user_name}));
-  }
+
 });
 	
 var server = app.listen(3001, function(){
