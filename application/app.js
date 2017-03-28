@@ -69,8 +69,16 @@ app.get("/secure", function(req,res) {
 app.get("/home", function(req,res) {
         res.sendFile(__dirname + "/user_home.html");
         });
+app.get("/sources", function(req,res) {
+        res.sendFile(__dirname + "/sources.html");
+        });
 
-
+app.get("/topics", function(req,res) {
+        res.sendFile(__dirname + "/topics.html");
+        });
+app.get("/about", function(req,res) {
+        res.sendFile(__dirname + "/about.html");
+        });
 
 var userinfo={
     "user1":{
