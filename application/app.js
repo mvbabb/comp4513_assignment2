@@ -10,7 +10,6 @@
 
 */
 
-
 var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
@@ -106,29 +105,7 @@ app.get('/login', function(req,res){
     var securePort = secureServer.address().port;
     console.log("Secure server started at http://%s:%s", secureHost, securePort);
     })});         
-    /*var user_name_node="admin"req.body.un;
-    var password_node=req.body.pw;
-    console.log("Username:" + user_name_node + " Password:" + password_node);
-    var authResponse={
-        
-        "token":"false"
-    }
-    
-    if(user_name_node == "admin"){
-        
-        authResponse={
-            "token":"true"
-        }
-    }
-    console.log(authResponse.token);
-    if(authResponse.token == "false"){
-        
-    res.sendFile(__dirname + "/error.html");
-}
-    else{
-        res.sendFile(__dirname + "/secure.html");
-    }});*/
-	
+  
 app.post('/saveUsername',function(req,res){
   if(req.session.uname){
 	  req.session.uname = req.body.uname;
@@ -146,7 +123,6 @@ var headers = {
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
 }
-
 // Configure the request
 var options = {
     url: 'http://localhost:3002/getInfo',
@@ -154,7 +130,6 @@ var options = {
     headers: headers,
     form: {'token': 'done'}
 }
-
 // Start the request
 request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
@@ -168,6 +143,20 @@ app.post('/favorites',function(req,res){
   var session = req.session;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "favorites":session.favorites}));
+});
+
+app.post('/feeds',function(req,res){
+  var session = req.session;
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "favorites":session.feeds}));
+});
+
+app.post('/loggedIn',function(req,res){
+  var session = req.session;
+  if(session){
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "favorites":session.logToken}));
+  }
 });
 
 	
