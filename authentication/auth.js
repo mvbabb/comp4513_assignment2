@@ -147,19 +147,13 @@ app.post('/', function(req,res){
     console.log("secure server");
     var text = "normal123";
     text = btoa(text);
-            console.log(text);
+    //console.log(text);
 
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
     for(x in jsonContent){
       //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
-      mongo.connect(url, function(err, db) {
-        assert.equal(null, err);
-        db.collection('users').insertOne(jsonContent[x], function(err, result) {
-          assert.equal(null, err);
-        console.log('Item inserted');
-        db.close();
-      })});
+      
     };
 
     var tokens = reader.readFileSync("app_token.json");
