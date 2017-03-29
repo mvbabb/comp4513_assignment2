@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname)));
 //app.use('/static', express.static('public'));
 app.use(bodyParse.urlencoded({extended:false}));
 app.use(session({resave:true, saveUninitialized: true, secret:"secret"}));
-
+var user;
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -132,38 +132,36 @@ var options = {
 request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
-        req.session = body;
-		console.log(req.session);
+        user = JSON.parse(body);
+		console.log(req.session)
     }
 })
 });
 
 app.post('/favorites',function(req,res){
-  var session = req.session;
+  var sess = user.user;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "favorites":session.favorites}));
+  res.send(JSON.stringify({"token": "success", "favorites":sess.favorites}));
 });
 
 app.post('/feeds',function(req,res){
-  var session = req.session;
+  var sess = user.user;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "feeds":session.feeds}));
+  res.send(JSON.stringify({"token": "success", "feeds":sess.feeds}));
 });
 
 app.post('/loggedIn',function(req,res){
-  var session = req.session;
-  if(session){
+  var sess = user.user;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "logToken":session.logToken}));
-  }
+  res.send(JSON.stringify({"token": "success", "logToken":sess.logToken}));
 });
 
 app.post('/user_name',function(req,res){
-  var session = req.session;
-  if(session){
+  var sess = user.user;
+
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "user_name":session.user_name}));
-  }
+
 });
 	
 var server = app.listen(3001, function(){

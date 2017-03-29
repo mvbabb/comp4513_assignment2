@@ -128,3 +128,5 @@ form[role=login] {
     overflow-x: hidden;
 }
 .saved-feed-home{height: 400px!important}
+.sources-list{min-height: 300px;max-height: 300px; overflow:hidden; margin-bottom:10%}
+.sources-list img {max-height:100px;}

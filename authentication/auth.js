@@ -59,20 +59,32 @@ app.use(function(req, res, next) {
 });
 
 //mongo DB test secion
+
 mongo.connect(url, function(err, db) {
   if(!err) {
     console.log("We are connected");
 
     db.createCollection('users', function(err, collection) {});
     var collection = db.collection('users');
-    var doc1 = {'hello':'doc1', 'key':'1'};
-    var doc2 = {'hello':'doc2', 'key':'2'};
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
-    console.log("before the inserts!");
     //collection.insert(exampleUser);
     //collection.insert(doc2, {w:1}, function(err, result) {});
     //find().each will grab the whole thing
     //find().next will grab one at a time
+    var json = reader.readFileSync("user_info.json");
+
+//-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
+    db.collection('users').deleteMany();
+
+//populate with 2 basic users
+    var jsonContent = JSON.parse(json);
+    for(x in jsonContent){
+    db.collection('users').insertOne(jsonContent[x], function(err, result) {
+      assert.equal(null, err);
+    console.log('Item inserted');
+  })};
+  //-----------------------------------------------------------------
+
 
     collection.find().each(function(err, doc) {
       console.log(doc);
@@ -82,6 +94,7 @@ mongo.connect(url, function(err, db) {
     db.close();
   }
 });
+
 //end mongo test section
 
 //mongDB request options
@@ -134,10 +147,15 @@ app.post('/', function(req,res){
     console.log("secure server");
     var text = "normal123";
     text = btoa(text);
-            console.log(text);
+    //console.log(text);
 
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
+    for(x in jsonContent){
+      //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
+      
+    };
+
     var tokens = reader.readFileSync("app_token.json");
     var appContent = JSON.parse(tokens);
     var user_name_node=req.body.uname;
@@ -148,7 +166,6 @@ app.post('/', function(req,res){
     for(x in jsonContent){
         jsonContent[x].logToken = "false";
     }
-
 
     for (x in jsonContent){
       if (atob(jsonContent[x].user_name) == user_name_node){
@@ -223,17 +240,71 @@ app.post('/getInfo',function(req,res,next){
 });
 
 
+function getAllUserData(callback){
+  var resultArray = [];
+  var stringResp = "";
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var cursor = db.collection('users').find();
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      //console.log("indiv doc test: "+JSON.stringify(doc));
+      resultArray.push(doc);
+
+    }, function() {
+      db.close();
+      stringResp = JSON.stringify(resultArray);
+      newJSON= '{"users":'+stringResp+'}'; //had to add this to avoid parsing issues
+      //console.log("single array entry test : "+resultArray);
+      callback(null, newJSON);
+    }
+  );
+  });
+}
+
+
+
 app.post('/new_user', function(req,res){
-    console.log("adding new user on secure server");
+    console.log("entering new_user on secure server");
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
-    var cont = "true";
-    for(x in jsonContent){
-        if(jsonContent[x].user_name == req.body.uname)
-        cont = "false";
+var cont="true";
+
+    getAllUserData(function(err, result){
+      //console.log("in new_user:: "+result);
+
+    var JSONresult = JSON.parse(result);
+    var user_name_node=btoa(req.body.uname);
+    var password_node=btoa(req.body.psw);
+    var actual_name = req.body.actualname;
+    console.log("JSON test: "+JSONresult.users[0].user_name);
+      for(x in JSONresult.users){
+        console.log("loop test: "+JSONresult.users[x].user_name);
+        if(JSONresult.users[x].user_name == user_name_node){
+          cont="false";
+          console.log("username already exists, cancelling new user");
+        }
+      }
+      if(cont == "true"){
+      console.log("new user name confirmed");
+
+
+
     }
 
-    if(cont == true){
+
+
+    }); //end of getAllUserData callback
+
+
+    for(x in jsonContent){
+        console.log(jsonContent[x].user_name + ", "+req.body.uname);
+        if(jsonContent[x].user_name == req.body.uname){
+        cont = "false";}
+    }
+
+    if(cont == "true"){
+      console.log("continuing");
     var totalUsers = Object.keys(jsonContent).length + 1;
     jsonContent = JSON.stringify(jsonContent);
     var user_name_node=btoa(req.body.uname);
@@ -241,18 +312,26 @@ app.post('/new_user', function(req,res){
     var actual_name = req.body.actualname;
     //var tokens = reader.readFileSync("app_token.json");
     //var appContent = JSON.parse(tokens);
-    var newUser = "";
-    newUser =' , "user' + totalUsers +'": {"user_name":"'+ user_name_node + '","name":"' + actual_name + '","password":"' + password_node + '","token":"coolAssToken", "logToken":"false","level":"regular"}} ';
-
-        jsonContent = jsonContent.substr(0,jsonContent.length - 1);
-        jsonContent = jsonContent + newUser;
-    console.log(jsonContent);
     console.log("Username:" + user_name_node + " Password:" + password_node);
-    reader.writeFileSync("user_info.json",jsonContent);
+    //WRITING TO FILE STOPPED HERE------------------------
+    //reader.writeFileSync("user_info.json",jsonContent);
 
-    res.redirect("http://localhost:3001/secure");
+    var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
+    actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [], "favorites" : [] }';
+    var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
+    mongo.connect(url, function(err, db) {
+      assert.equal(null, err);
+      db.collection('users').insertOne(newUserJSON, function(err, result) {
+        assert.equal(null, err);
+        console.log('New User inserted');
+        db.close();
+      });
+    });
+    console.log("new mongo user: "+NewMongoUser);
+    res.redirect("http://localhost:3001/");
 
-  }else{res.redirect("http://localhost:3001/secure")}});
+  }else{res.redirect("http://localhost:3001/")}
+});
 
 
 
