@@ -10,7 +10,6 @@
 
 */
 
-
 var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
@@ -69,8 +68,16 @@ app.get("/secure", function(req,res) {
 app.get("/home", function(req,res) {
         res.sendFile(__dirname + "/user_home.html");
         });
+app.get("/sources", function(req,res) {
+        res.sendFile(__dirname + "/sources.html");
+        });
 
-
+app.get("/topics", function(req,res) {
+        res.sendFile(__dirname + "/topics.html");
+        });
+app.get("/about", function(req,res) {
+        res.sendFile(__dirname + "/about.html");
+        });
 
 var userinfo={
     "user1":{
@@ -91,39 +98,15 @@ var userinfo={
 
 
 app.get('/login', function(req,res){
-    
-    
     var secureServer = app.listen(3002, function(){
     var secureHost = "10.239.32.182";
     var securePort = secureServer.address().port;
     console.log("Secure server started at http://%s:%s", secureHost, securePort);
     })});         
-    /*var user_name_node="admin"req.body.un;
-    var password_node=req.body.pw;
-    console.log("Username:" + user_name_node + " Password:" + password_node);
-    var authResponse={
-        
-        "token":"false"
-    }
-    
-    if(user_name_node == "admin"){
-        
-        authResponse={
-            "token":"true"
-        }
-    }
-    console.log(authResponse.token);
-    if(authResponse.token == "false"){
-        
-    res.sendFile(__dirname + "/error.html");
-}
-    else{
-        res.sendFile(__dirname + "/secure.html");
-    }});*/
-	
+  
 app.post('/saveUsername',function(req,res){
-  if(req.session.uname){
-	  req.session.uname = req.body.uname;
+  if(req.session.user_name){
+	  req.session.user_name = req.body.uname;
 	  res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
   }else{
@@ -138,7 +121,6 @@ var headers = {
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
 }
-
 // Configure the request
 var options = {
     url: 'http://localhost:3002/getInfo',
@@ -146,12 +128,12 @@ var options = {
     headers: headers,
     form: {'token': 'done'}
 }
-
 // Start the request
 request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
-        console.log(body)
+        req.session = body;
+		console.log(req.session);
     }
 })
 });
@@ -162,6 +144,27 @@ app.post('/favorites',function(req,res){
   res.send(JSON.stringify({"token": "success", "favorites":session.favorites}));
 });
 
+app.post('/feeds',function(req,res){
+  var session = req.session;
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "feeds":session.feeds}));
+});
+
+app.post('/loggedIn',function(req,res){
+  var session = req.session;
+  if(session){
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "logToken":session.logToken}));
+  }
+});
+
+app.post('/user_name',function(req,res){
+  var session = req.session;
+  if(session){
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success", "user_name":session.user_name}));
+  }
+});
 	
 var server = app.listen(3001, function(){
     var host = "10.239.32.182";
