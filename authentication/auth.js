@@ -74,15 +74,15 @@ mongo.connect(url, function(err, db) {
     var json = reader.readFileSync("user_info.json");
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
-    //db.collection('users').deleteMany();
+    db.collection('users').deleteMany();
 
 //populate with 2 basic users
-    /*var jsonContent = JSON.parse(json);
+    var jsonContent = JSON.parse(json);
     for(x in jsonContent){
     db.collection('users').insertOne(jsonContent[x], function(err, result) {
       assert.equal(null, err);
     console.log('Item inserted');
-  })};*/
+  })};
   //-----------------------------------------------------------------
 
 
