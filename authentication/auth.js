@@ -180,14 +180,6 @@ app.post('/', function(req,res){
 			  //-----------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
 			  //---------------------------------------------------------------------
                      res.redirect("http://localhost:3001/newsfeed");
               }
@@ -251,13 +243,9 @@ app.post('/getInfo',function(req,res,next){
   var user2find = btoa(req.body.user_name);
   var pass2find = btoa(req.body.pass);
   getOneUserData(user2find, pass2find, function(err, result){
-    //var session = exampleUser;
-    //console.log("/getinfo getOneUserData result: "+result);
-    
     var session = result;
     res.setHeader('Content-Type', 'application/json');
     res.send(result);
-
   });//end getOneUserData callback
 
 });
@@ -333,20 +321,45 @@ var cont="true";
     var user_name_node=btoa(req.body.uname);
     var password_node=btoa(req.body.psw);
     var actual_name = req.body.actualname;
-    console.log("JSON test: "+JSONresult.users[0].user_name);
+    //console.log("JSON test: "+JSONresult.users[0].user_name);
       for(x in JSONresult.users){
-        console.log("loop test: "+JSONresult.users[x].user_name);
+        //console.log("loop test: "+JSONresult.users[x].user_name);
         if(JSONresult.users[x].user_name == user_name_node){
           cont="false";
           console.log("username already exists, cancelling new user");
         }
       }
       if(cont == "true"){
-      console.log("new user name confirmed");
+        console.log("new username confirmed");
+      //var totalUsers = Object.keys(jsonContent).length + 1;
+      jsonContent = JSON.stringify(jsonContent);
+      var user_name_node=btoa(req.body.uname);
+      var password_node=btoa(req.body.psw);
+      var actual_name = req.body.actualname;
+      //var tokens = reader.readFileSync("app_token.json");
+      //var appContent = JSON.parse(tokens);
+      //console.log("Username:" + user_name_node + " Password:" + password_node);
+      //WRITING TO FILE STOPPED HERE------------------------
+      //reader.writeFileSync("user_info.json",jsonContent);
 
+      var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
+      actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [], "favorites" : [] }';
+      var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
+      mongo.connect(url, function(err, db) {
+        assert.equal(null, err);
+        db.collection('users').insertOne(newUserJSON, function(err, result) {
+          assert.equal(null, err);
+          console.log('New User inserted');
+          db.close();
+        });
+      });
+//point
+//jasjdaskdj
+//kjsdfkjsd
+      console.log("new mongo user: "+NewMongoUser);
+      res.redirect("http://localhost:3001/");
 
-
-    }
+    }else{res.redirect("http://localhost:3001/")}
 
 
 
@@ -359,35 +372,6 @@ var cont="true";
         cont = "false";}
     }*/
 
-    if(cont == "true"){
-      console.log("continuing");
-    //var totalUsers = Object.keys(jsonContent).length + 1;
-    jsonContent = JSON.stringify(jsonContent);
-    var user_name_node=btoa(req.body.uname);
-    var password_node=btoa(req.body.psw);
-    var actual_name = req.body.actualname;
-    //var tokens = reader.readFileSync("app_token.json");
-    //var appContent = JSON.parse(tokens);
-    console.log("Username:" + user_name_node + " Password:" + password_node);
-    //WRITING TO FILE STOPPED HERE------------------------
-    //reader.writeFileSync("user_info.json",jsonContent);
-
-    var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
-    actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [], "favorites" : [] }';
-    var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
-    mongo.connect(url, function(err, db) {
-      assert.equal(null, err);
-      db.collection('users').insertOne(newUserJSON, function(err, result) {
-        assert.equal(null, err);
-        console.log('New User inserted');
-        db.close();
-      });
-    });
-
-    console.log("new mongo user: "+NewMongoUser);
-    res.redirect("http://localhost:3001/");
-
-  }else{res.redirect("http://localhost:3001/")}
 });
 
 
