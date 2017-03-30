@@ -224,12 +224,8 @@ app.post('/authentication_server', function(req,res){
               jsonContent = JSON.stringify(jsonContent);
               reader.writeFileSync("user_info.json",jsonContent);
                      res.redirect("http://localhost:3002/secure");
-              }
-
-          else{
-
+            }else{
               res.redirect("http://localhost:3002/");
-
             }
               }
         };
@@ -270,8 +266,6 @@ function getOneUserData(user, pw, callback){
       var found = false;
       var toReturn = "";
       for(x in newJSON.users){
-        //console.log("getOneUserData loop test: "+newJSON.users[x].user_name+", "+newJSON.users[x].password+", "+user+", "+pw);
-        //console.log("user format test: "+JSON.stringify(newJSON.users[x]));
         if(newJSON.users[x].user_name == user && newJSON.users[x].password == pw){
             console.log("user info found in getOneUserData");
             toReturn = JSON.stringify(newJSON.users[x]);
@@ -336,9 +330,6 @@ var cont="true";
       var user_name_node=btoa(req.body.uname);
       var password_node=btoa(req.body.psw);
       var actual_name = req.body.actualname;
-      //var tokens = reader.readFileSync("app_token.json");
-      //var appContent = JSON.parse(tokens);
-      //console.log("Username:" + user_name_node + " Password:" + password_node);
       //WRITING TO FILE STOPPED HERE------------------------
       //reader.writeFileSync("user_info.json",jsonContent);
 
@@ -353,9 +344,8 @@ var cont="true";
           db.close();
         });
       });
-//point
-//jasjdaskdj
-//kjsdfkjsd
+
+      //CAN CHANGE TO RESPONDING WITH SUCCESS/FAIL MESSAGES
       console.log("new mongo user: "+NewMongoUser);
       res.redirect("http://localhost:3001/");
 
