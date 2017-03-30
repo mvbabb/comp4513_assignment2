@@ -19,7 +19,7 @@ var reader = require('fs');
 var path = require('path');
 var app=express();
 var morgan = require('morgan');
-app.use(session({resave:true, saveUninitialized: false, secret:"secret"}));
+app.use(session({resave:false, saveUninitialized: true, secret:"secret"}));
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
 //app.use(express.static("application"));
@@ -141,7 +141,6 @@ request(options, function (error, response, body) {
 		console.log("I'm fucking doing it");
 		use = JSON.parse(body);
         req.session.user = JSON.parse(body);
-		req.session.save();
 		res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
     }
@@ -151,28 +150,31 @@ request(options, function (error, response, body) {
 });
 
 app.post('/favorites',function(req,res){
-  var sess = use;
+  var userdata = req.session.user;
+	console.log(userdata.favorites);
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "favorites":sess.favorites}));
+  res.send(JSON.stringify({"token": "success", "favorites":userdata.favorites}));
 });
 
 app.post('/feeds',function(req,res){
-	console.log(req.session.user);
-  var sess = use;
+	var userdata = req.session.user;
+	console.log(userdata.feeds);
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "feeds":sess.feeds}));
+  res.send(JSON.stringify({"token": "success", "feeds":userdata.feeds}));
 });
 
 app.post('/loggedIn',function(req,res){
-  var sess = use;
+  var userdata = req.session.user;
+	console.log(userdata.logToken);
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "logToken":sess.logToken}));
+  res.send(JSON.stringify({"token": "success", "logToken":userdata.logToken}));
 });
 
 app.post('/user_name',function(req,res){
-  var sess = use;
+  var userdata = req.session.user;
+	console.log(userdata.user_name);
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "user_name":sess.user_name}));
+  res.send(JSON.stringify({"token": "success", "user_name":userdata.user_name}));
 
 });
 	
