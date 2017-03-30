@@ -74,15 +74,15 @@ mongo.connect(url, function(err, db) {
     var json = reader.readFileSync("user_info.json");
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
-    db.collection('users').deleteMany();
+    //db.collection('users').deleteMany();
 
 //populate with 2 basic users
-    var jsonContent = JSON.parse(json);
+    /*var jsonContent = JSON.parse(json);
     for(x in jsonContent){
     db.collection('users').insertOne(jsonContent[x], function(err, result) {
       assert.equal(null, err);
     console.log('Item inserted');
-  })};
+  })};*/
   //-----------------------------------------------------------------
 
 
@@ -147,7 +147,7 @@ app.post('/', function(req,res){
     console.log("secure server");
     var text = "normal123";
     text = btoa(text);
-    //console.log(text);
+    console.log("BtoA test: "+text);
 
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
@@ -178,16 +178,16 @@ app.post('/', function(req,res){
               jsonContent = JSON.stringify(jsonContent);
               reader.writeFileSync("user_info.json",jsonContent);
 			  //-----------------------------------------------------------------
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
+
+
+
+
+
+
+
+
+
+
 			  //---------------------------------------------------------------------
                      res.redirect("http://localhost:3001/newsfeed");
               }
@@ -245,14 +245,56 @@ app.post('/authentication_server', function(req,res){
     });
 
 app.post('/getInfo',function(req,res,next){
-	//Andrew: 
-	//console.log(req.body.user_name + req.body.pass);
+	//Andrew:
+	console.log("inside getInfo: "+req.body.user_name + req.body.pass);
 	//should return specific user based on username and password (these work and have been test )
-  var session = exampleUser;
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "user":session}));
+  var user2find = btoa(req.body.user_name);
+  var pass2find = btoa(req.body.pass);
+  getOneUserData(user2find, pass2find, function(err, result){
+    //var session = exampleUser;
+    //console.log("/getinfo getOneUserData result: "+result);
+    
+    var session = result;
+    res.setHeader('Content-Type', 'application/json');
+    res.send(result);
+
+  });//end getOneUserData callback
+
 });
 
+
+function getOneUserData(user, pw, callback){
+  var resultArray = [];
+  var stringResp = "";
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var cursor = db.collection('users').find();
+    cursor.forEach(function(doc, err) {
+      assert.equal(null, err);
+      //console.log("indiv doc test: "+JSON.stringify(doc));
+      resultArray.push(doc);
+
+    }, function() {
+      db.close();
+      stringResp = JSON.stringify(resultArray);
+      newJSON= JSON.parse('{"users":'+stringResp+'}'); //had to add this to avoid parsing issues
+      //console.log("single array entry test : "+resultArray);
+      var found = false;
+      var toReturn = "";
+      for(x in newJSON.users){
+        //console.log("getOneUserData loop test: "+newJSON.users[x].user_name+", "+newJSON.users[x].password+", "+user+", "+pw);
+        //console.log("user format test: "+JSON.stringify(newJSON.users[x]));
+        if(newJSON.users[x].user_name == user && newJSON.users[x].password == pw){
+            console.log("user info found in getOneUserData");
+            toReturn = JSON.stringify(newJSON.users[x]);
+            found == true;
+        }
+      }
+      callback(null, toReturn);
+    }
+  );
+  });
+}
 
 function getAllUserData(callback){
   var resultArray = [];
