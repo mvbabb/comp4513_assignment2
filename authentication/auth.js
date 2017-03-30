@@ -24,6 +24,7 @@ var path = require('path');
 var app=express();
 var btoa = require('btoa');
 var atob = require('atob');
+var morgan = require('morgan');
 //var mongodb = require('mongodb');
 var mongo = require('mongodb').MongoClient;
 var userDBJSON;
@@ -35,7 +36,7 @@ app.use(express.static(path.join(__dirname)));
 app.use(bodyParse.urlencoded({extended:false}));
 var assert = require('assert');
 var url = "mongodb://localhost:27017/YLN";
-
+app.use(morgan('dev'));
 // "_id" : "0100",
 //mongo will auto-set the _key field if I dont.
 //if username and password match, save that ID on login
@@ -181,7 +182,7 @@ app.post('/', function(req,res){
 
 
 			  //---------------------------------------------------------------------
-                     res.redirect("http://localhost:3001/newsfeed");
+                     res.redirect("http://localhost:3001/sources");
               }
 
           else{
@@ -241,7 +242,7 @@ app.post('/getInfo',function(req,res,next){
   getOneUserData(user2find, pass2find, function(err, result){
     var session = result;
     res.setHeader('Content-Type', 'application/json');
-    res.send(result);
+    res.send(exampleUser);
   });//end getOneUserData callback
 
 });

@@ -17,14 +17,18 @@ var session = require('express-session');
 var reader = require('fs');
 var path = require('path');
 var app=express();
+var morgan = require('morgan');
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
 //app.use(express.static("application"));
 //app.use(express.static("images"));
 //app.use('/static', express.static('public'));
 app.use(bodyParse.urlencoded({extended:false}));
-app.use(session({resave:true, saveUninitialized: true, secret:"secret"}));
-var user;
+app.use(session({resave:true, saveUninitialized: false, secret:"secret"}));
+app.use(morgan('dev'));
+
+
+
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -44,7 +48,6 @@ app.get('/readfile', function(req,res){
 });
 app.get('/newsfeed', function(req,res){
      res.sendFile(__dirname + "/YLN_app/newsfeed.html");
-	 req.session.type = "Login";
 });
 
 app.get("/error", function(req,res) {
@@ -93,6 +96,9 @@ var userinfo={
     }
 }
 
+		var use;
+var user;
+
 app.get('/login', function(req,res){
     var secureServer = app.listen(3002, function(){
     var secureHost = "10.239.32.182";
@@ -101,8 +107,8 @@ app.get('/login', function(req,res){
     })});         
   
 app.post('/saveUsername',function(req,res){
-  if(req.session.user_name){
-	  req.session.user_name = req.body.uname;
+  if(user.user_name){
+	  user.user_name = req.body.uname;
 	  res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
   }else{
@@ -114,7 +120,6 @@ app.post('/saveUsername',function(req,res){
 app.post('/info',function(req,res,next){
 	var username = req.body.un;
 	var pass = req.body.pw;
-	
 // Set the headers
 var headers = {
     'User-Agent':       'MADS/0.0.1',
@@ -131,35 +136,38 @@ var options = {
 request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
-        user = JSON.parse(body);
-		console.log(user)
+		console.log("I'm fucking doing it");
+		use = JSON.parse(body);
+        req.session.user = JSON.parse(body);
     }
 })
+
+res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({"token": "success"}));
 });
 
 app.post('/favorites',function(req,res){
-  var sess = user.user;
+  var sess = use;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "favorites":sess.favorites}));
 });
 
 app.post('/feeds',function(req,res){
-  var sess = user.user;
+  var sess = use;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "feeds":sess.feeds}));
 });
 
 app.post('/loggedIn',function(req,res){
-  var sess = user.user;
+  var sess = use;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "logToken":sess.logToken}));
 });
 
 app.post('/user_name',function(req,res){
-  var sess = user.user;
-
+  var sess = use;
   res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success", "user_name":session.user_name}));
+  res.send(JSON.stringify({"token": "success", "user_name":sess.user_name}));
 
 });
 	
