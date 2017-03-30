@@ -49,17 +49,65 @@
     <div class="container free-content">
         
         <script>
-            $(document).on("ready",function(e){
-              
+            $(document).ready(function () {
+                  $.ajax({
+                        url: "https://newsapi.org/v1/sources?language=en",
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (data) {
+                            var sourceString = "";
+                            var sourceTarget = document.querySelector("#createFeedForm #feed_break");
+                            var sources = data.sources;
+                            for (var i = 0; i < sources.length; i++) {
+                                var source = sources[i];
+
+                                var sourceHtmlString = '';
+                                
+                                sourceHtmlString += '<div class="col-md-3" style="text-align:left"> <input type="checkbox" ';
+                                sourceHtmlString += 'id="' + source.id + '" ';
+                                sourceHtmlString +=  'name="' +source.id + '"> ';
+                                sourceHtmlString +=  source.name + "</div> ";
+
+                                sourceString += sourceHtmlString;
                 
                 
-                
+                            }$(sourceString).insertAfter(sourceTarget);
+                        }});
             });
-            
             
         </script>        
         
 <div class="row">
+    
+    
+    
+    <form method="post" action="http://localhost:3002/new_user" role="login" id="createFeedForm">
+          
+        <h2>Add a custom feed to your list!</h2>
+        <input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-sm col-md-4">
+        <hr class="col-md-12" id="feed_break">
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block col-md">Add Feed</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
+          
+        </form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   <!--<div class="col-sm-6 col-md-3">
     <div class="thumbnail">
       <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/whatsapp-status1.jpg?w=764&h=400&crop=1" alt="...">
@@ -72,15 +120,15 @@
   </div>-->
   
   
-  
+  <!--
   
   <div class="col-sm-6 col-md-3 saved-feed-home">
     <div class="thumbnail">
-      <img src="http://i.newsapi.org/abc-news-au-s.png" alt="..."><!--small logo is being used-->
+      <img src="http://i.newsapi.org/abc-news-au-s.png" alt="...">
       <div class="caption">
         <h3>ABC News (AU)</h3>
         <p>Australia's most trusted source of local, national and world news. Comprehensive, independent, in-depth analysis, the latest business, sport, weather and more.</p>
-        <p><a href="" class="btn btn-primary" role="button">Read</a></p><!--filtered feed as link-->
+        <p><a href="" class="btn btn-primary" role="button">Read</a></p>
       </div>
     </div>
   </div>
@@ -90,7 +138,7 @@
       <div class="caption">
         <h3>Ars Technica</h3>
         <p>The PC enthusiast's resource. Power users and the tools they love, without computing religion.</p>
-        <p><a href="" class="btn btn-primary" role="button">Read</a></p><!--filtered feed as link-->
+        <p><a href="" class="btn btn-primary" role="button">Read</a></p>
       </div>
     </div>
   </div>
@@ -100,10 +148,12 @@
       <div class="caption">
         <h3>Associated Press</h3>
         <p>The AP delivers in-depth coverage on the international, politics, lifestyle, business, and entertainment news</p>
-        <p><a href="" class="btn btn-primary" role="button">Read</a></p><!--filtered feed as link-->
+        <p><a href="" class="btn btn-primary" role="button">Read</a></p>
       </div>
     </div>
   </div>
+    
+    -->
 </div>
 
 
