@@ -75,6 +75,7 @@ mongo.connect(url, function(err, db) {
     var json = reader.readFileSync("user_info.json");
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
+//-------------------COMMENT OUT THIS WHOLE SECTION AFTER RUNNING ONCE FOR STABLE DB
     db.collection('users').deleteMany();
 
 //populate with 2 basic users
@@ -85,7 +86,6 @@ mongo.connect(url, function(err, db) {
     console.log('Item inserted');
   })};
   //-----------------------------------------------------------------
-
 
     collection.find().each(function(err, doc) {
       console.log(doc);
@@ -240,9 +240,9 @@ app.post('/getInfo',function(req,res,next){
   var user2find = btoa(req.body.user_name);
   var pass2find = btoa(req.body.pass);
   getOneUserData(user2find, pass2find, function(err, result){
-    var session = result;
+    //var session = result;
     res.setHeader('Content-Type', 'application/json');
-    res.send(exampleUser);
+    res.send(result);
   });//end getOneUserData callback
 
 });
