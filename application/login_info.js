@@ -11,7 +11,7 @@
  
                           
                           })
-						  $.post("http://localhost:3001/info",{"un":un/*,"pw":pw*/},function(data){
+						  $.post("http://localhost:3001/info",{"un":un,"pw":pw},function(data){
                               
                               console.log("Looking for dat data");
                           })

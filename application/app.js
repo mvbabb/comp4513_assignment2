@@ -93,9 +93,6 @@ var userinfo={
     }
 }
 
-
-
-
 app.get('/login', function(req,res){
     var secureServer = app.listen(3002, function(){
     var secureHost = "10.239.32.182";
@@ -115,6 +112,9 @@ app.post('/saveUsername',function(req,res){
 });
 	
 app.post('/info',function(req,res,next){
+	var username = req.body.un;
+	var pass = req.body.pw;
+	
 // Set the headers
 var headers = {
     'User-Agent':       'MADS/0.0.1',
@@ -125,7 +125,7 @@ var options = {
     url: 'http://localhost:3002/getInfo',
     method: 'POST',
     headers: headers,
-    form: {'token': 'done'}
+    form: {user_name: username, pass:pass}
 }
 // Start the request
 request(options, function (error, response, body) {

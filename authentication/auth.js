@@ -42,8 +42,8 @@ var url = "mongodb://localhost:27017/YLN";
 var exampleUser= {"user_name" : "user1", "password":"pass",
 "name":"Michael", "token":"coolAssToken", "logToken":"true", "level":"admin",
 "feeds" : [
-  { "feed_id":"0001", "feed_name":"feed1", "sources": [ "bbc", "buzzfeed", "cnn"] },
-  { "feed_id":"0002", "feed_name":"feed2", "sources": [ "bbc", "buzzfeed", "cnn"] }
+  { "feed_id":"0001", "feed_name":"feed1", "sources": [ "bbc-news", "buzzfeed", "cnn"] },
+  { "feed_id":"0002", "feed_name":"feed2", "sources": [ "bbc-news", "buzzfeed", "cnn"] }
 ],
 "favorites" : [
   { "author":"testAuthor", "description":"lots of text description", "publishedAt":"2017-03-25", "title":"FakeTitle", "url":"www.google.com", "urlToImage":"www.google.com/news"},
@@ -177,6 +177,18 @@ app.post('/', function(req,res){
               jsonContent[x].logToken = "true";
               jsonContent = JSON.stringify(jsonContent);
               reader.writeFileSync("user_info.json",jsonContent);
+			  //-----------------------------------------------------------------
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  //---------------------------------------------------------------------
                      res.redirect("http://localhost:3001/newsfeed");
               }
 
@@ -233,7 +245,9 @@ app.post('/authentication_server', function(req,res){
     });
 
 app.post('/getInfo',function(req,res,next){
-	//req.body.uname;
+	//Andrew: 
+	//console.log(req.body.user_name + req.body.pass);
+	//should return specific user based on username and password (these work and have been test )
   var session = exampleUser;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "user":session}));
