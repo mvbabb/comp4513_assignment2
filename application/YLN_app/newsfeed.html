@@ -16,11 +16,15 @@
         <script>
             $(document).ready(function () {
                 window.sources = [];
+                window.mainArticles = [];
                 loadSources();
 
-                loadFeed("buzzfeed");
-
-                loadFavorites();
+                //loadFeed("buzzfeed");
+                
+                loadPersonalizedFeed("0001");
+                //loadFavorites();
+                
+                setInterval(function(){loadPersonalizedFeed("0001");},60000);
 
                 $('a.topicList').on("click", function (e) {
                     e.preventDefault();
@@ -153,28 +157,29 @@
                     console.log(window.sources[0]);
                     switch (topic) {
                         case "sport":
-                            index=0;
+                            index = 0;
                             break;
                         case "business":
-                            index=1;
+                            index = 1;
                             break;
                         case "entertainment":
-                            index=2;
+                            index = 2;
                             break;
                         case "gaming":
-                            index=3;
+                            index = 3;
                             break;
                         case "technology":
-                            index=4;
+                            index = 4;
                             break;
                         case "music":
-                            index=5;
+                            index = 5;
                             break;
                         case "science-and-nature":
-                            index=6;
+                            index = 6;
                             break;
-                        default: index=7;
-                        break;
+                        default:
+                            index = 7;
+                            break;
                     }
 
 
@@ -194,7 +199,7 @@
 
                     for (var i = 0; i < length; i++) {
                         var source = topicSources[i];
-                        var sort = "top";
+                        var sort = "latest";
 
                         $.ajax({
                             url: "https://newsapi.org/v1/articles?sortBy=" + sort + "&source=" + source.id + "&apiKey=f507ff22dca54c43b92817017a34d613",
@@ -233,6 +238,103 @@
 
 
                 }
+
+                function loadPersonalizedFeed(feedId) {
+                    //var index = 0;
+                    //$('#newsFeed').html("");
+
+                    setTimeout(function () {
+                        printFeed();
+                    }, 1000)
+
+                    $.ajax({
+                        url: "http://localhost:3001/feeds",
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (data) {
+
+                            var feed = undefined;
+                            for (var i = 0; i < data.feeds.length; i++) {
+                                if (data.feeds[i].feed_id == feedId) {
+                                    feed = data.feeds[i];
+                                }
+                            }
+
+                            if (feed == undefined) {
+                                feed = data.feeds[0];
+                            }
+
+                            //window.mainArticlesLength = 0;
+                            
+                            var maxIndex = feed.sources.length - 1;
+                            for (var j = 0; j < feed.sources.length; j++) {
+                                $.ajax({
+                                    url: "https://newsapi.org/v1/articles?source=" + feed.sources[j] + "&apiKey=f507ff22dca54c43b92817017a34d613",
+                                    dataType: 'json',
+                                    type: 'GET',
+                                    success: function (data) {
+                                        for (var i = 0; i < data.articles.length; i++) {
+                                            window.mainArticles.push(data.articles[i]);
+
+                                            //window.mainArticlesLength++;
+                                        }
+
+                                        console.log(window.mainArticles);
+
+
+
+                                    }});
+
+                            }
+                        }});
+                }
+
+                function printFeed() {
+                    var printArticles = [];
+                    shuffle(window.mainArticles);
+                    //console.log(window.mainArticles);
+                    var leng;
+                    if (window.mainArticles.length > 15) {
+                        leng = 15;
+                    } else {
+                        leng = window.mainArticles.length;
+                    }
+
+                    //var htmlString = "";
+
+
+                    for (var i = 0; i < leng; i++) { //prints randomized articles
+                        var article = window.mainArticles[i];
+                        var articleHtmlString = "<div class='panel panel-default'>";
+                        articleHtmlString += "<div class='panel-body'>";
+                        articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                        articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                        articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                        articleHtmlString += "<a target='_blank' href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
+                        articleHtmlString += "<p>" + article["description"] + "</p>";
+                        articleHtmlString += "</div></div></div></div>";
+                        printArticles.push(articleHtmlString);
+                    }
+                    //$('#newsFeed').html(htmlString);
+                    
+                    for(var i = 0; i < printArticles.length; i++){
+                        $(printArticles[i]).hide().appendTo('#newsFeed').fadeIn(i*500);
+                    }
+
+
+                }
+
+                function shuffle(a) {
+                    var j, x, i;
+                    for (i = a.length; i; i--) {
+                        j = Math.floor(Math.random() * i);
+                        x = a[i - 1];
+                        a[i - 1] = a[j];
+                        a[j] = x;
+                    }
+                }
+
+
 
 
 
