@@ -153,7 +153,7 @@ app.post('/', function(req,res){
     var jsonContent = JSON.parse(json);
     for(x in jsonContent){
       //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
-      
+
     };
 
     var tokens = reader.readFileSync("app_token.json");
@@ -297,15 +297,15 @@ var cont="true";
     }); //end of getAllUserData callback
 
 
-    for(x in jsonContent){
+    /*for(x in jsonContent){
         console.log(jsonContent[x].user_name + ", "+req.body.uname);
         if(jsonContent[x].user_name == req.body.uname){
         cont = "false";}
-    }
+    }*/
 
     if(cont == "true"){
       console.log("continuing");
-    var totalUsers = Object.keys(jsonContent).length + 1;
+    //var totalUsers = Object.keys(jsonContent).length + 1;
     jsonContent = JSON.stringify(jsonContent);
     var user_name_node=btoa(req.body.uname);
     var password_node=btoa(req.body.psw);
@@ -327,6 +327,7 @@ var cont="true";
         db.close();
       });
     });
+
     console.log("new mongo user: "+NewMongoUser);
     res.redirect("http://localhost:3001/");
 
