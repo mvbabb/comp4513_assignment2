@@ -14,17 +14,19 @@ var request = require('request');
 var express = require('express');
 var bodyParse = require("body-parser");
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 var reader = require('fs');
 var path = require('path');
 var app=express();
 var morgan = require('morgan');
+app.use(session({resave:true, saveUninitialized: false, secret:"secret"}));
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
 //app.use(express.static("application"));
 //app.use(express.static("images"));
 //app.use('/static', express.static('public'));
 app.use(bodyParse.urlencoded({extended:false}));
-app.use(session({resave:true, saveUninitialized: false, secret:"secret"}));
+
 app.use(morgan('dev'));
 
 
@@ -139,11 +141,13 @@ request(options, function (error, response, body) {
 		console.log("I'm fucking doing it");
 		use = JSON.parse(body);
         req.session.user = JSON.parse(body);
+		req.session.save();
+		res.setHeader('Content-Type', 'application/json');
+		res.send(JSON.stringify({"token": "success"}));
     }
 })
 
-res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({"token": "success"}));
+
 });
 
 app.post('/favorites',function(req,res){
@@ -153,6 +157,7 @@ app.post('/favorites',function(req,res){
 });
 
 app.post('/feeds',function(req,res){
+	console.log(req.session.user);
   var sess = use;
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "feeds":sess.feeds}));
