@@ -63,7 +63,7 @@
 
                                 var sourceHtmlString = '';
                                 
-                                sourceHtmlString += '<div class="col-md-3" style="text-align:left"> <input type="checkbox" ';
+                                sourceHtmlString += '<div class="col-md-4" style="text-align:left"> <input type="checkbox" ';
                                 sourceHtmlString += 'id="' + source.id + '" ';
                                 sourceHtmlString +=  'name="new_feed_item' /*+ source.id*/ + '" value="'+ source.id + '"> ';
                                 sourceHtmlString +=  source.name + "</div> ";
@@ -81,16 +81,66 @@
     
     
     
+      
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#createFeedModal">Create a New Feed</button>
+    
+    
+    <!-- Modal -->
+<div id="createFeedModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Time to create a new feed?</h4>
+      </div>
+      <div class="modal-body">
+    <!--<div class="container">-->
+  <div class="row login-popup" id="pwd-container">
+    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <section class="login-form">
     <form method="post" action="http://localhost:3002/new_feed" role="login" id="createFeedForm">
           
         <h2>Add a custom feed to your list!</h2>
-        <div class="col-md-4"><input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-md"></div>
+        <div class="col-md-10"><input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-md"></div>
         <hr class="col-md-12" id="feed_break">
           <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block col-md">Add Feed</button>
             <!--<input type="checkbox"  checked="checked"> Remember me
           <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
           
         </form>
+        
+        <div class="form-links">
+          <a href="http://localhost:3001/">www.yourlivenews.com</a>
+        </div>
+      </section>  
+      </div>
+  </div>
+  
+</div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
     
     
