@@ -98,16 +98,18 @@
                                 console.log("--------------");
                                 
                                 var sourceHtmlString = '';
-                                sourceHtmlString += "<div class='col-md-3' ><h2><button type='button' class='btn btn-large'>" + feed.feed_name + "</button></h2><ul> " ; 
+                                sourceHtmlString += "<div class='col-md-3' ><h2>" + feed.feed_name + "  </h2><ul>" ; 
                                 
                                 for(var x = 0; x < feed["sources"].length; x++){
                                
                                 sourceHtmlString += '<li>' + feed.sources[x] + '</li>';
                                 }
-                                sourceHtmlString +='</ul></div>'
+                                sourceHtmlString +='</ul>';
+            sourceHtmlString +="<form action='http://localhost:3001/feedRedirect' method='post'><input type='hidden' value='" + feed.feed_name + "' name='feed'> <button type='submit' id='btnSubmit' class='btn btn-md btn-primary btn-block col-md'> Read </button></form></div>";
+            
                                 feedString += sourceHtmlString;
                 
-                
+                                    
                             }
                             feedString += "</div>";
                             
