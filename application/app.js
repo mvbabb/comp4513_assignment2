@@ -155,8 +155,8 @@ var stringSession = JSON.stringify(usersession);
 		if(use.token = "success"){
 			req.session.user = usersession;
 		}
-		res.setHeader('Content-Type', 'application/json');
-		res.send(JSON.stringify({"token": "success"}));
+		//res.setHeader('Content-Type', 'application/json');
+		//res.send(JSON.stringify({"token": "success"}));
     }
 })
      res.sendFile(__dirname + "/user_home.html");

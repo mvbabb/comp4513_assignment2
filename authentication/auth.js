@@ -247,7 +247,8 @@ app.post('/getInfo',function(req,res,next){
     //var session = result;
     res.setHeader('Content-Type', 'application/json');
     res.send(result);
-  });//end getOneUserData callback sdfd
+  });//end getOneUserData callback
+  //
 
 });
 
@@ -262,7 +263,7 @@ console.log("inside updateUser: "+req.body.user);
   getOneUserData(user2find, pass2find, function(err, result){
     if(result){
       var JSONres = JSON.parse(result);
-
+      delete JSONUpUser._id;
       var IDtochange = JSONres._id;
       mongo.connect(url, function(err, db) {
           assert.equal(null, err);
@@ -271,7 +272,7 @@ console.log("inside updateUser: "+req.body.user);
             assert.equal(null, err);
             console.log('User updated '+JSON.stringify(JSONUpUser));
             db.close();
-            res.send("success");
+            res.send({"token":"success"});
           });
         });
     }
