@@ -19,12 +19,20 @@
                 window.mainArticles = [];
                 loadSources();
 
+                $(window).scroll(function () {
+                    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                         loadPersonalizedFeed("0001");
+                    }
+                });
+
                 //loadFeed("buzzfeed");
-                
-                loadPersonalizedFeed("0001");
+
+               
                 //loadFavorites();
-                
-                setInterval(function(){loadPersonalizedFeed("0001");},60000);
+
+                /*setInterval(function () {
+                    loadPersonalizedFeed("0001");
+                }, 60000);*/
 
                 $('a.topicList').on("click", function (e) {
                     e.preventDefault();
@@ -34,6 +42,8 @@
 
 
                 function loadFeed(source) {
+                    $('#newsFeed').html("");
+                    var articlesPrint = [];
                     $.ajax({
                         url: "https://newsapi.org/v1/articles?source=" + source + "&apiKey=f507ff22dca54c43b92817017a34d613",
                         dataType: 'json',
@@ -51,11 +61,16 @@
                                 articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
                                 articleHtmlString += "<p>" + article["description"] + "</p>";
                                 articleHtmlString += "</div></div></div></div>";
-                                htmlString += articleHtmlString;
+                                articlesPrint.push(articleHtmlString);
                             }
                             //console.log(htmlString);
                             //$(htmlString).insertBefore($("footer"));
-                            $('#newsFeed').append(htmlString);
+                            //$('#newsFeed').append(htmlString);
+
+                            for (var i = 0; i < articlesPrint.length; i++) {
+                                $(articlesPrint[i]).hide().appendTo('#newsFeed').fadeIn(500 + i * 100);
+                            }
+
 
                         }});
                 }
@@ -265,7 +280,7 @@
                             }
 
                             //window.mainArticlesLength = 0;
-                            
+
                             var maxIndex = feed.sources.length - 1;
                             for (var j = 0; j < feed.sources.length; j++) {
                                 $.ajax({
@@ -316,9 +331,9 @@
                         printArticles.push(articleHtmlString);
                     }
                     //$('#newsFeed').html(htmlString);
-                    
-                    for(var i = 0; i < printArticles.length; i++){
-                        $(printArticles[i]).hide().appendTo('#newsFeed').fadeIn(i*500);
+
+                    for (var i = 0; i < printArticles.length; i++) {
+                        $(printArticles[i]).hide().appendTo('#newsFeed').fadeIn(500 + i * 100);
                     }
 
 
