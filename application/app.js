@@ -118,6 +118,34 @@ app.post('/saveUsername',function(req,res){
 	res.send(JSON.stringify({"token": "fail"}));
   }
 });
+
+
+
+
+
+app.post('/new_feed', function(req, res){
+    console.log("adding new feed");
+    console.log(req.body.feedName);
+    for (x=0;x < req.body.new_feed_item.length; x++){
+        console.log(req.body.new_feed_item[x])
+    }
+    
+     res.sendFile(__dirname + "/user_home.html");
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 app.post('/info',function(req,res,next){
 	var username = req.body.un;
