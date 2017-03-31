@@ -76,7 +76,7 @@ mongo.connect(url, function(err, db) {
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
 //-------------------COMMENT OUT THIS WHOLE SECTION AFTER RUNNING ONCE FOR STABLE DB
-    db.collection('users').deleteMany();
+    /*db.collection('users').deleteMany();
 
 //populate with 2 basic users
     var jsonContent = JSON.parse(json);
@@ -84,7 +84,7 @@ mongo.connect(url, function(err, db) {
     db.collection('users').insertOne(jsonContent[x], function(err, result) {
       assert.equal(null, err);
     console.log('Item inserted');
-  })};
+  })};*/
   //-----------------------------------------------------------------
 
     collection.find().each(function(err, doc) {
@@ -251,6 +251,33 @@ app.post('/getInfo',function(req,res,next){
 
 });
 
+app.post('/updateUser',function(req,res,next){
+	//console.log("inside updateUser: "+req.body.user_name + req.body.pass);
+  var JSONUpUser = JSON.parse(req.body.user);
+  var user2find = JSONUpUser.user_name;
+  var pass2find = JSONUpUser.password;
+  console.log("updateUser test: "+user2find+", "+pass2find);
+  getOneUserData(user2find, pass2find, function(err, result){
+    if(result){
+      var JSONres = JSON.parse(result);
+
+      var IDtochange = JSONres._id;
+      mongo.connect(url, function(err, db) {
+          assert.equal(null, err);
+          console.log("result exists! ID: "+IDtochange);
+          db.collection('users').replaceOne({user_name: user2find}, JSONUpUser, function(err, result) {
+            assert.equal(null, err);
+            console.log('User updated '+JSON.stringify(JSONUpUser));
+            db.close();
+            res.send("success");
+          });
+        });
+    }
+//sdfasdfdgfg
+
+  });//end getOneUserData callback
+
+});
 
 function getOneUserData(user, pw, callback){
   var resultArray = [];
@@ -339,7 +366,7 @@ var cont="true";
       //reader.writeFileSync("user_info.json",jsonContent);
 
       var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
-      actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [], "favorites" : [] }';
+      actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [{ "feed_id":"0001", "feed_name":"default", "sources": [ "bbc-news", "buzzfeed", "cnn"] }], "favorites" : [] }';
       var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
       mongo.connect(url, function(err, db) {
         assert.equal(null, err);
