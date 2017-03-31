@@ -237,6 +237,13 @@ app.post('/feedRedirect',function(req,res){
 	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
 });
 
+/*
+app.post('/delete_feed',function(req,res){
+	var feedName = req.body.feed;
+	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
+});
+*/
+
 app.get('/logout',function(req,res){
 	req.session.destroy();
 	res.redirect("http://localhost:3001/");

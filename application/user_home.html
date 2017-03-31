@@ -92,17 +92,17 @@
                                 console.log("--------------");
                                 
                                 var sourceHtmlString = '';
-                                sourceHtmlString += "<div class='col-md-3' ><h2>" + feed.feed_name + "  </h2><ul>" ; 
+                                sourceHtmlString += "<div class='col-md-6' ><h2>" + feed.feed_name + "  </h2>" ; 
                                 
                                 for(var x = 0; x < feed["sources"].length; x++){
                                
-                                sourceHtmlString += '<li>' + feed.sources[x] + '</li>';
+                                sourceHtmlString += feed.sources[x] + ',';
                                 }
-                                sourceHtmlString +='</ul>';
-                                
-                                sourceHtmlString +="<form action='http://localhost:3001/feedRedirect' method='post'><input type='hidden' value='" + feed.feed_name + "' name='feed'> <button type='submit' id='btnSubmit' class='btn btn-md btn-primary btn-block col-md'> Read </button></form>";
                                
-                                sourceHtmlString +="<form action='http://localhost:3001/deleteFeed' method='post'><input type='hidden' value='" + feed.feed_name + "' name='feed'> <button type='submit' id='btnSubmit' class='.btn-danger btn-md btn-primary btn-block col-md'> X </button></form></div>";
+                                
+                                sourceHtmlString +="<form class='col-md-6' action='http://localhost:3001/feedRedirect' method='post'><input type='hidden' value='" + feed.feed_name + "' name='feed'> <button type='submit' id='btnSubmit' class='btn btn-md btn-primary btn-block '> Read </button></form>";
+                               
+                                sourceHtmlString +="<form class='col-md-3' action='http://localhost:3001/delete_feed' method='post'><input type='hidden' value='" + feed.feed_name + "' name='feed'> <button type='submit' id='btnSubmit' class='btn-danger btn-md btn-block'> X </button></form></div>";
             
                                 feedString += sourceHtmlString;
                 
@@ -152,7 +152,7 @@
     <form method="post" action="http://localhost:3001/new_feed" role="login" id="createFeedForm">
           
         <h2>Add a custom feed to your list!</h2>
-        <div class="col-md-10"><input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-md"></div>
+        <div class="col-md-5"><input required text="text" maxlength="10" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-md "></div>
         <hr class="col-md-12" id="feed_break">
           <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block col-md">Add Feed</button>
             <!--<input type="checkbox"  checked="checked"> Remember me
