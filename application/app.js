@@ -41,6 +41,7 @@ app.use(function(req, res, next) {
 
 
 app.get('/', function(req,res){
+	req.session.destroy();
     res.sendFile(__dirname + "/YLN_app/index.html");
 });
 
@@ -98,7 +99,7 @@ var userinfo={
     }
 }
 
-		var use;
+var use;
 var user;
 
 app.get('/login', function(req,res){
@@ -120,32 +121,48 @@ app.post('/saveUsername',function(req,res){
 });
 
 
-
-
-
 app.post('/new_feed', function(req, res){
+	var usersession = req.session.user;
     console.log("adding new feed");
-    console.log(req.body.feedName);
+	var newFeed = {};
+	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
+	newFeed["feed_name"] = req.body.feedName;
+	var newData = [];
     for (x=0;x < req.body.new_feed_item.length; x++){
-        console.log(req.body.new_feed_item[x])
+		newData.push(req.body.new_feed_item[x]);
     }
-    
+	newFeed["sources"] = newData;
+	
+	
+	usersession.feeds[usersession.feeds.length] = newFeed;
+	console.log(usersession);
+	var headers = {
+    'User-Agent':       'MADS/0.0.1',
+    'Content-Type':     'application/x-www-form-urlencoded'
+}
+
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: usersession}
+}
+
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = usersession;
+		}
+		res.setHeader('Content-Type', 'application/json');
+		res.send(JSON.stringify({"token": "success"}));
+    }
+})
      res.sendFile(__dirname + "/user_home.html");
     
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 app.post('/info',function(req,res,next){
 	var username = req.body.un;
@@ -167,7 +184,6 @@ request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
 		console.log("I'm fucking doing it");
-		use = JSON.parse(body);
         req.session.user = JSON.parse(body);
 		res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
