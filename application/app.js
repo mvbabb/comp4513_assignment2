@@ -211,6 +211,11 @@ app.post('/feedRedirect',function(req,res){
 	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
 });
 
+app.post('/logout',function(req,res){
+	req.session.destroy();
+	res.redirect("http://localhost:3001/");
+});
+
 app.post('/loggedIn',function(req,res){
   var userdata = req.session.user;
 	console.log(userdata.logToken);
