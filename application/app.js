@@ -206,6 +206,11 @@ app.post('/feeds',function(req,res){
   res.send(JSON.stringify({"token": "success", "feeds":userdata.feeds}));
 });
 
+app.post('/feedRedirect',function(req,res){
+	var feedName = req.body.feed;
+	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
+});
+
 app.post('/loggedIn',function(req,res){
   var userdata = req.session.user;
 	console.log(userdata.logToken);
