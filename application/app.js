@@ -41,8 +41,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-
 app.get('/', function(req,res){
 	req.session.destroy();
     res.sendFile(__dirname + "/YLN_app/index.html");
@@ -53,7 +51,11 @@ app.get('/readfile', function(req,res){
     res.send(data);
 });
 app.get('/newsfeed', function(req,res){
+	if(req.session.user){
      res.sendFile(__dirname + "/YLN_app/newsfeed.html");
+	}else{
+		res.sendFile(__dirname + "/YLN_app/index.html");
+	}
 });
 
 app.get("/error", function(req,res) {
@@ -76,6 +78,7 @@ app.get("/secure", function(req,res) {
 app.get("/home", function(req,res) {
         res.sendFile(__dirname + "/user_home.html");
         });
+		
 app.get("/sources", function(req,res) {
         res.sendFile(__dirname + "/sources.html");
         });
@@ -86,22 +89,7 @@ app.get("/topics", function(req,res) {
 app.get("/about", function(req,res) {
         res.sendFile(__dirname + "/about.html");
         });
-
-var userinfo={
-    "user1":{
-        "username":"admin",
-        "password":"admin123#",
-        "address":"info 1",
-        "id":1
-    },
-        "user2":{
-        "username":"user2",
-        "password":"pwduser2",
-        "address":"info 2",
-        "id":2
-    }
-}
-
+		
 var use;
 var user;
 
