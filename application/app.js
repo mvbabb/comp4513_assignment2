@@ -29,7 +29,10 @@ app.use(bodyParse.urlencoded({extended:false}));
 
 app.use(morgan('dev'));
 
-
+var headers = {
+    'User-Agent':       'MADS/0.0.1',
+    'Content-Type':     'application/x-www-form-urlencoded'
+	}
 
 
 app.use(function(req, res, next) {
@@ -163,15 +166,50 @@ var stringSession = JSON.stringify(usersession);
 
 });
 
+app.post('/add_favorites', function(req, res){
+	var usersession = req.session.user;
+    console.log("adding new feed");
+	/*
+	var newFeed = {};
+	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
+	newFeed["feed_name"] = req.body.feedName;
+	var newData = [];
+    for (x=0;x < req.body.new_feed_item.length; x++){
+		newData.push(req.body.new_feed_item[x]);
+    }
+	newFeed["sources"] = newData;
+	usersession.feeds[usersession.feeds.length] = newFeed;
+	
+	TO BE REPLACED WITH INFO DAVID WILL SEND UPON FAVORITE ADDING
+	*/ 
+	console.log(usersession);
+	req.session.user = usersession;
+	
+var stringSession = JSON.stringify(usersession);
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: stringSession}
+}
+
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = usersession;
+		}
+    }
+})
+     res.sendFile(__dirname + "/favorites.html");
+});
+
+
 app.post('/info',function(req,res,next){
 	var username = req.body.un;
 	var pass = req.body.pw;
-// Set the headers
-var headers = {
-    'User-Agent':       'MADS/0.0.1',
-    'Content-Type':     'application/x-www-form-urlencoded'
-}
-// Configure the request
 var options = {
     url: 'http://localhost:3002/getInfo',
     method: 'POST',
@@ -211,7 +249,7 @@ app.post('/feedRedirect',function(req,res){
 	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
 });
 
-app.post('/logout',function(req,res){
+app.get('/logout',function(req,res){
 	req.session.destroy();
 	res.redirect("http://localhost:3001/");
 });
