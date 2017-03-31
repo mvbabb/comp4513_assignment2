@@ -65,7 +65,7 @@
                                 
                                 sourceHtmlString += '<div class="col-md-3" style="text-align:left"> <input type="checkbox" ';
                                 sourceHtmlString += 'id="' + source.id + '" ';
-                                sourceHtmlString +=  'name="' +source.id + '"> ';
+                                sourceHtmlString +=  'name="new_feed_item' /*+ source.id*/ + '" value="'+ source.id + '"> ';
                                 sourceHtmlString +=  source.name + "</div> ";
 
                                 sourceString += sourceHtmlString;
@@ -81,10 +81,10 @@
     
     
     
-    <form method="post" action="http://localhost:3002/new_user" role="login" id="createFeedForm">
+    <form method="post" action="http://localhost:3002/new_feed" role="login" id="createFeedForm">
           
         <h2>Add a custom feed to your list!</h2>
-        <input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-sm col-md-4">
+        <div class="col-md-4"><input text="text" name="feedName" placeholder="New Feed Name" id="feed_name" class="form-control input-md"></div>
         <hr class="col-md-12" id="feed_break">
           <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block col-md">Add Feed</button>
             <!--<input type="checkbox"  checked="checked"> Remember me

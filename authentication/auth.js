@@ -182,7 +182,7 @@ app.post('/', function(req,res){
 
 
 			  //---------------------------------------------------------------------
-                     res.redirect("http://localhost:3001/sources");
+                     res.redirect("http://localhost:3001/home");
               }
 
           else{
@@ -200,6 +200,19 @@ app.post('/', function(req,res){
             };
 
     });
+
+
+
+app.post('/new_feed', function(req, res){
+    console.log("adding new feed");
+    console.log(req.body.feedName);
+    for (x=0;x < req.body.new_feed_item.length; x++){
+        console.log(req.body.new_feed_item[x])
+    }
+    
+    
+    
+});
 
 app.post('/authentication_server', function(req,res){
     console.log("secure server accesed");
