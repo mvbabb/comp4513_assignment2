@@ -5,7 +5,7 @@
     -if the app is valid(same as above) then verify the user for access
     -everyone is  an "admin level"
     -submit through the google drive (mbabb668), send a share link to Padma
-    
+
 
 
 */
@@ -107,8 +107,8 @@ app.get('/login', function(req,res){
     var secureHost = "10.239.32.182";
     var securePort = secureServer.address().port;
     console.log("Secure server started at http://%s:%s", secureHost, securePort);
-    })});         
-  
+    })});
+
 app.post('/saveUsername',function(req,res){
   if(user.user_name){
 	  user.user_name = req.body.uname;
@@ -139,12 +139,12 @@ app.post('/new_feed', function(req, res){
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
 }
-
+var stringSession = JSON.stringify(usersession);
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
     headers: headers,
-    form: {user: usersession}
+    form: {user: stringSession}
 }
 
 	request(options, function (error, response, body) {
@@ -160,9 +160,9 @@ app.post('/new_feed', function(req, res){
     }
 })
      res.sendFile(__dirname + "/user_home.html");
-    
+
 });
-	
+
 app.post('/info',function(req,res,next){
 	var username = req.body.un;
 	var pass = req.body.pw;
@@ -220,7 +220,7 @@ app.post('/user_name',function(req,res){
   res.send(JSON.stringify({"token": "success", "user_name":userdata.user_name}));
 
 });
-	
+
 var server = app.listen(3001, function(){
     var host = "10.239.32.182";
     var port = server.address().port;

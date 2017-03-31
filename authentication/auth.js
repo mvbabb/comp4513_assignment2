@@ -247,15 +247,17 @@ app.post('/getInfo',function(req,res,next){
     //var session = result;
     res.setHeader('Content-Type', 'application/json');
     res.send(result);
-  });//end getOneUserData callback
+  });//end getOneUserData callback sdfd
 
 });
 
 app.post('/updateUser',function(req,res,next){
-	//console.log("inside updateUser: "+req.body.user_name + req.body.pass);
+console.log("inside updateUser: "+req.body.user);
   var JSONUpUser = JSON.parse(req.body.user);
+
   var user2find = JSONUpUser.user_name;
   var pass2find = JSONUpUser.password;
+
   console.log("updateUser test: "+user2find+", "+pass2find);
   getOneUserData(user2find, pass2find, function(err, result){
     if(result){
