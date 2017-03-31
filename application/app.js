@@ -132,10 +132,9 @@ app.post('/new_feed', function(req, res){
 		newData.push(req.body.new_feed_item[x]);
     }
 	newFeed["sources"] = newData;
-	
-	
 	usersession.feeds[usersession.feeds.length] = newFeed;
 	console.log(usersession);
+	req.session.user = usersession;
 	var headers = {
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
