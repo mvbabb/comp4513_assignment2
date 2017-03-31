@@ -128,5 +128,8 @@ form[role=login] {
     overflow-x: hidden;
 }
 .saved-feed-home{height: 400px!important}
-.sources-list{min-height: 300px;max-height: 300px; overflow:hidden; margin-bottom:10%}
+.sources-list{min-height: 300px!important;max-height: 300px!important; margin-bottom:10%}
 .sources-list img {max-height:100px;}
+
+#newsfeedOptions{margin-bottom:4%;position:absolute}
+#newsFeed{margin-top:7%;position:relative}

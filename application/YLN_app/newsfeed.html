@@ -380,13 +380,12 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
+                        <a class="navbar-brand" href="http://localhost:3001/home"><img src="../YLN_app/YourLiveNews_White.png"></a>
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
         <li><a href="http://localhost:3001/home">Home</a></li>
         <li><a href="http://localhost:3001/sources">Sources</a></li>
-        <li><a href="http://localhost:3001/topics">Topics</a></li>
         <li ><a href="http://localhost:3001/about">About</a></li>
                     <li class="active"><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
           <li><a href="http://localhost:3001/secure">Settings</a></li>
@@ -397,7 +396,7 @@
             </nav>
         </header>
 
-        <div class="col-md-1">
+        <div class="col-md-12" id="newsfeedOptions">
             <div class="dropdown dropped favorite_drops">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sources
                     <span class="caret"></span></button>
@@ -422,15 +421,6 @@
                 </ul>
             </div>
             <div class="dropdown dropped favorite_drops">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Sources
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Tech</a></li>
-                    <li><a href="#">Politics</a></li>
-
-                </ul>
-            </div>
-            <div class="dropdown dropped favorite_drops">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Favorite Stories
                     <span class="caret"></span></button>
                 <ul class="dropdown-menu">
@@ -442,7 +432,7 @@
 
         </div>
 
-        <div id="newsFeed">
+        <div id="newsFeed" class="col-md-12">
 
 
             <!-- This is where the live feed goes, each panel is a new article
@@ -468,7 +458,7 @@
 
         </div>
 
-        <footer>
+        <footer class="col-md-12">
             <nav class="navbar navbar-inverse navbarbottommargin navbar-bottom">
                 <div class="container-fluid">
                     <div class="navbar-bottom">
