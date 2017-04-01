@@ -402,7 +402,16 @@
 
 
                 
-                
+             $(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    $(".side-nav .collapse").on("hide.bs.collapse", function() {                   
+        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down");
+    });
+    $('.side-nav .collapse').on("show.bs.collapse", function() {                        
+        $(this).prev().find(".fa").eq(1).removeClass("fa-angle-down").addClass("fa-angle-right");        
+    });
+})    
+       
                 
                 
                 
@@ -451,7 +460,7 @@ function scrollToTop() {
 
     <body>
         <header>
-            <nav class="navbar navbar-inverse">
+            <!--<nav class="navbar navbar-inverse">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -472,9 +481,9 @@ function scrollToTop() {
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav>-->
         </header>
-
+<!--
         <div class="col-md-12" id="newsfeedOptions">
             <div class="dropdown dropped favorite_drops">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sources
@@ -509,7 +518,87 @@ function scrollToTop() {
                 </ul>
             </div>
 
+        </div>-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
+        
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <a class="navbar-brand" href="http://localhost:3001/home"><img src="../YLN_app/YourLiveNews_White.png"></a>
+                                    <ul class="nav navbar-nav">
+                            <li><a href="http://localhost:3001/home">Home</a></li>
+                            <li><a href="http://localhost:3001/sources">Sources</a></li>
+                            <li ><a href="http://localhost:3001/about">About</a></li>
+                            <li class="active"><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
+                            <li><a href="http://localhost:3001/secure">Settings</a></li>
+                            <li><a href="http://localhost:3001/logout">Logout</a></li>
+                        </ul>
+            <ul class="nav navbar-nav side-nav">
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-1"><i class="fa fa-fw fa-search"></i> Topics<i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-1" class="collapse">
+                    <li><a title="business" class="topicList" href="#">Business</a></li>
+                    <li><a title="entertainment" class="topicList" href="#">Entertainment</a></li>
+                    <li><a title="gaming" class="topicList" href="#">Gaming</a></li>
+                    <li><a title="general" class="topicList" href="#">General</a></li>
+                    <li><a title="music" class="topicList" href="#">Music</a></li>
+                    <li><a title="science" class="topicList" href="#">Science and Nature</a></li>
+                    <li><a title="sport" class="topicList" href="#">Sport</a></li>
+                    <li><a  title="technology" href="#">Technology</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-2"><i class="fa fa-fw fa-newspaper-o"></i> Sources <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-2" class="collapse sourceList scrollable-menu">
+
+                    </ul>
+                </li>
+                                <li>
+                    <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  Favorite Stories <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+                    <ul id="submenu-3" class="collapse">
+                    <li><a href="#">Test story one</a></li>
+                    <li><a href="#">Test story two</a></li>
+                    </ul>
+                </li>
+
+
+               <!-- <li>
+                    <a href="faq"><i class="fa fa-fw fa fa-question-circle"></i> MENU 5</a>
+                </li>-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         <div id="newsFeed" class="col-md-12">
 
@@ -544,7 +633,7 @@ function scrollToTop() {
         </div>
 
         <footer class="col-md-12">
-            <nav class="navbar navbar-inverse navbarbottommargin navbar-bottom">
+            <nav class="navbar navbar-inverse navbarbottommargin navbar-fixed-bottom">
                 <div class="container-fluid">
                     <div class="navbar-bottom">
                         <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
