@@ -18,11 +18,16 @@
                 window.sources = [];
                 window.mainArticles = [];
                 loadSources();
-                loadPersonalizedFeed("0001");
+                var feedId = getParameterByName("feed");
+                //alert(feedId);
+                loadPersonalizedFeed(feedId);
+                
+                
+                
                 $(window).scroll(function () {
 
                     if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                      loadPersonalizedFeed("0001");
+                        loadPersonalizedFeed("0001");
                     }
                 });
 
@@ -32,8 +37,8 @@
                 //loadFavorites();
 
                 /*setInterval(function () {
-                    loadPersonalizedFeed("0001");
-                }, 60000);*/
+                 loadPersonalizedFeed("0001");
+                 }, 60000);*/
 
                 $('a.topicList').on("click", function (e) {
                     e.preventDefault();
@@ -255,7 +260,7 @@
 
                 }
 
-                function loadPersonalizedFeed(feedId) {
+                function loadPersonalizedFeed(feedName) {
                     //var index = 0;
                     //$('#newsFeed').html("");
 
@@ -271,7 +276,7 @@
 
                             var feed = undefined;
                             for (var i = 0; i < data.feeds.length; i++) {
-                                if (data.feeds[i].feed_id == feedId) {
+                                if (data.feeds[i].feed_name == feedName) {
                                     feed = data.feeds[i];
                                 }
                             }
@@ -350,6 +355,20 @@
                     }
                 }
 
+                function getParameterByName(name, url) {
+                    if (!url) {
+                        url = window.location.href;
+                    }
+                    name = name.replace(/[\[\]]/g, "\\$&");
+                    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                            results = regex.exec(url);
+                    if (!results)
+                        return null;
+                    if (!results[2])
+                        return '';
+                    return decodeURIComponent(results[2].replace(/\+/g, " "));
+                }
+
 
 
 
@@ -384,12 +403,12 @@
                     </div>
                     <div class="collapse navbar-collapse" id="myNavbar">
                         <ul class="nav navbar-nav">
-        <li><a href="http://localhost:3001/home">Home</a></li>
-        <li><a href="http://localhost:3001/sources">Sources</a></li>
-        <li ><a href="http://localhost:3001/about">About</a></li>
-                    <li class="active"><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
-          <li><a href="http://localhost:3001/secure">Settings</a></li>
-                                      <li><a href="http://localhost:3001/logout">Logout</a></li>
+                            <li><a href="http://localhost:3001/home">Home</a></li>
+                            <li><a href="http://localhost:3001/sources">Sources</a></li>
+                            <li ><a href="http://localhost:3001/about">About</a></li>
+                            <li class="active"><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
+                            <li><a href="http://localhost:3001/secure">Settings</a></li>
+                            <li><a href="http://localhost:3001/logout">Logout</a></li>
                         </ul>
                     </div>
                 </div>
