@@ -18,16 +18,23 @@
                 window.sources = [];
                 window.mainArticles = [];
                 loadSources();
+                window.feedType = "personal";
                 var feedId = getParameterByName("feed");
                 //alert(feedId);
                 loadPersonalizedFeed(feedId);
-                
-                
-                
+
+
+
                 $(window).scroll(function () {
 
                     if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                        loadPersonalizedFeed("0001");
+                        if (window.feedType == "personal") {
+                            loadPersonalizedFeed(feedId);
+                        } else if (window.feedType == "source") {
+                            loadFeed(window.feedSource);
+                        }
+
+
                     }
                 });
 
@@ -48,7 +55,10 @@
 
 
                 function loadFeed(source) {
-                    $('#newsFeed').html("");
+                    if(window.feedSource != source){
+                       $('#newsFeed').html("");
+                    }
+                    
                     var articlesPrint = [];
                     $.ajax({
                         url: "https://newsapi.org/v1/articles?source=" + source + "&apiKey=f507ff22dca54c43b92817017a34d613",
@@ -163,6 +173,8 @@
                             $('a.sourceLink').on('click', function (e) {
                                 e.preventDefault();
                                 var source = $(this).attr('title');
+                                window.feedType = "source";
+                                window.feedSource = source;
                                 $('#newsFeed').html("");
                                 loadFeed(source);
                             });
