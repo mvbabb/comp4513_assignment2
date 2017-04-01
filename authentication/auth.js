@@ -341,6 +341,7 @@ app.post('/new_user', function(req,res){
     console.log("entering new_user on secure server");
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
+    var jsonContent2 = JSON.parse(json);
 var cont="true";
 
     getAllUserData(function(err, result){
@@ -368,8 +369,13 @@ var cont="true";
       //WRITING TO FILE STOPPED HERE------------------------
       //reader.writeFileSync("user_info.json",jsonContent);
 
+
       var NewMongoUser= '{"user_name" : "'+user_name_node+'", "password":"'+password_node+'", "name":"'+
       actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [{ "feed_id":"0001", "feed_name":"default", "sources": [ "bbc-news", "buzzfeed", "cnn"] }], "favorites" : [] }';
+      //console.log("new user test== "+JSON.stringify(jsonContent));
+      newString = '{"user1":'+JSON.stringify(jsonContent2.user1)+',"user2":'+JSON.stringify(jsonContent2.user2)+',"user3":'+NewMongoUser+'}';
+      reader.writeFileSync("user_info.json",newString);
+
       var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
       mongo.connect(url, function(err, db) {
         assert.equal(null, err);
