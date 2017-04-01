@@ -95,6 +95,7 @@ form[role=login] {
 /**********************CONTENT*****************************/
 .media-body{color:black}
 .panel{border-radius:10px; max-width: 70%; margin-left:20%;}
+.userPanel{margin-left:0%!important;max-width: 100%!important}
 .navbarbottommargin, footer .navbar{margin-bottom:0%;}
 .powered-by{margin-top:1.3%; color:white}
 .dropped{float:left; margin-left:3%}
@@ -134,7 +135,7 @@ form[role=login] {
 #newsfeedOptions{margin-bottom:4%;position:absolute}
 #newsFeed{margin-top:7%;position:relative}
 .button-spacing{margin:0.3%}
-/*.userSettingsBtn{position:fixed; z-index: 99999; margin-bottom:5%;}*/
+/*.userSettingsBtn{margin-left:15%!important}*/
 /******************************************************************************************/
 body,html{
     height: 100%;
@@ -256,4 +257,5 @@ body,html{
   }
   
 .sidebar{position:fixed; z-index:9999}
+
  
