@@ -129,9 +129,10 @@
 <div class="row">
     
     
-    <button type="button" id="feedbutton" class="btn btn-info btn-lg" data-toggle="modal" data-target="#checkYourFeeds">Your Feeds</button>
-      
-    <button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#createFeedModal">Create a New Feed</button>
+    <button type="button" id="feedbutton" class="button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#checkYourFeeds">Your Feeds</button>
+    <button type="button"  class="button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#createFeedModal">Create a New Feed</button>
+    <button type="button"  class="button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#updateUser">Update User</button>
+    <button type="button"  class=" button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#updatePassword">Update Password</button>
     
     
     <!-- Modal -->
@@ -203,7 +204,197 @@
     </div>
 
   </div>
+    
+    <div id="updateUser" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Updating your user info?</h4>
+      </div>
+      <div class="modal-body">
+    <!--<div class="container">-->
+  <div class="row login-popup" id="pwd-container">
+    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <section class="login-form">
+        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+          <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
+            <h2 class="text-center">Update User Info</h2>
+            <table class="table table-striped ">
+    <tr><td>UserName</td><td id="userName"> </td></tr>
+    <tr><td>Name</td><td id="u_name"> </td></tr>
 
+
+</table>
+          <input type="text" id="uname" placeholder="Enter Username" required class="form-control input-lg"name="uname" required>
+           <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Password" required=""  name="psw">
+      
+          <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />-->
+          
+          
+          <div class="pwstrength_viewport_progress"></div>
+          
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Update</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
+          
+        </form>
+      </section>  
+      </div>
+  </div>
+  
+</div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+    
+    
+    
+    <div id="updatePassword" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Time to update your password?</h4>
+      </div>
+      <div class="modal-body">
+    <!--<div class="container">-->
+  <div class="row login-popup" id="pwd-container">
+    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <section class="login-form">
+        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+          <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
+            <h2 class="text-center">Update Password</h2>
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Enter Password" required=""  name="psw">
+           <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
+          <input type="password" id="unpwd1" class="form-control input-lg" id="password" placeholder="Re-Enter Password" required=""  name="psw1">
+      
+          <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />-->
+          
+          
+          <div class="pwstrength_viewport_progress"></div>
+          
+          <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary btn-block">Update</button>
+            <!--<input type="checkbox"  checked="checked"> Remember me
+          <button type="submit" name="bthSubmit" class="btn btn-lg btn-primary btn-block">Sign in</button>-->
+          
+        </form>
+      </section>  
+      </div>
+  </div>
+  
+</div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+    
+    <hr/>
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
+                            </div>
+                        </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
+                    </div>
+                </div>
+                    <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
+                            </div>
+                        </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
+                    </div>
+                </div>
+                    <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
+                            </div>
+                        </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
+                    </div>
+                </div>
+                    <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
+                            </div>
+                        </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
+                    </div>
+                </div>
+                    <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left media-middle">
+                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
+                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
+                            </div>
+                        </div>
+                                                 <div class="media-right media-middle">
+    <img src="http://i.newsapi.org/associated-press-s.png" width="60px">
+  </div>
+                    </div>
+                </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   <!--<div class="col-sm-6 col-md-3">
     <div class="thumbnail">
       <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/whatsapp-status1.jpg?w=764&h=400&crop=1" alt="...">
