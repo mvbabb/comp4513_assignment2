@@ -32,6 +32,8 @@
                             loadPersonalizedFeed(feedId);
                         } else if (window.feedType == "source") {
                             loadFeed(window.feedSource);
+                        } else if (window.feedType == "topic") {
+                            loadFeedByTopic(window.feedTopic);
                         }
 
 
@@ -55,10 +57,10 @@
 
 
                 function loadFeed(source) {
-                    if(window.feedSource != source){
-                       $('#newsFeed').html("");
+                    if (window.feedSource != source) {
+                        $('#newsFeed').html("");
                     }
-                    
+
                     var articlesPrint = [];
                     $.ajax({
                         url: "https://newsapi.org/v1/articles?source=" + source + "&apiKey=f507ff22dca54c43b92817017a34d613",
@@ -186,8 +188,13 @@
 
 
                 function loadFeedByTopic(topic) {
+                    window.feedType = "topic";
+                    if (window.feedTopic != topic) {
+                        $('#newsFeed').html("");
+                    }
+                    window.feedTopic = topic;
                     var index;
-                    console.log(window.sources[0]);
+                    //console.log(window.sources[0]);
                     switch (topic) {
                         case "sport":
                             index = 0;
@@ -219,6 +226,35 @@
 
                     //topic would be string ("general")
                     var articlePool = [];
+                    setTimeout(function () {
+                        var leng;
+                        var printArticles = [];
+                        if (articlePool.length > 10){
+                            leng = 10;
+                        }
+                        else{
+                            leng = articlePool.length;
+                        }
+
+                        for (var i = 0; i < leng; i++) { //prints randomized articles
+                            var article = articlePool[i];
+                            var articleHtmlString = "<div class='panel panel-default'>";
+                            articleHtmlString += "<div class='panel-body'>";
+                            articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                            articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                            articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                            articleHtmlString += "<a target='_blank' href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
+                            articleHtmlString += "<p>" + article["description"] + "</p>";
+                            articleHtmlString += "</div></div></div></div>";
+                            printArticles.push(articleHtmlString);
+                        }
+                        //$('#newsFeed').html(htmlString);
+                        shuffle(printArticles);
+                        for (var i = 0; i < printArticles.length; i++) {
+                            $(printArticles[i]).hide().appendTo('#newsFeed').fadeIn(500 + i * 100);
+                        }
+                    }, 1000);
+
                     var topicSources = window.sources[index];
 
                     var length;
@@ -232,41 +268,22 @@
 
                     for (var i = 0; i < length; i++) {
                         var source = topicSources[i];
-                        var sort = "latest";
+                        //var sort = "latest";
 
                         $.ajax({
-                            url: "https://newsapi.org/v1/articles?sortBy=" + sort + "&source=" + source.id + "&apiKey=f507ff22dca54c43b92817017a34d613",
+                            url: "https://newsapi.org/v1/articles?source=" + source.id + "&apiKey=f507ff22dca54c43b92817017a34d613",
                             dataType: 'json',
                             type: 'GET',
                             success: function (data) {
                                 var htmlString = "";
                                 var articles = data.articles;
-                                for (var i = 0; i < articles.length; i++) {
-                                    articlePool.push(articles[i]);
+                                for (var j = 0; j < articles.length; j++) {
+                                    articlePool.push(articles[j]);
                                 }
                             }});
                     }
-                    var feedlength;
-                    if (articlePool.length > 15) {
-                        feedlength = 15;
-                    } else {
-                        feedlength = articlePool.length;
-                    }
-                    var htmlString = "";
-                    for (var i = 0; i < feedlength; i++) {
-                        var article = articlePool[i];
-                        var articleHtmlString = "<div class='panel panel-default'>";
-                        articleHtmlString += "<div class='panel-body'>";
-                        articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
-                        articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
-                        articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
-                        articleHtmlString += "<a target='_blank' href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
-                        articleHtmlString += "<p>" + article["description"] + "</p>";
-                        articleHtmlString += "</div></div></div></div>";
-                        htmlString += articleHtmlString;
-                    }
-                    console.log(htmlString);
-                    $('#newsFeed').html(htmlString);
+
+                    //$('#newsFeed').html(htmlString);
 
 
 
@@ -312,7 +329,7 @@
                                             //window.mainArticlesLength++;
                                         }
 
-                                        console.log(window.mainArticles);
+                                        //console.log(window.mainArticles);
 
 
 
