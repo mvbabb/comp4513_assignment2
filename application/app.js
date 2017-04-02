@@ -155,6 +155,39 @@ var stringSession = JSON.stringify(usersession);
 });
 
 
+app.post('/delete_favorites',function(req,res){
+	var toDelete = req.body.url;
+	var update = req.session.user;
+	for(var x = 0; x < update.favorites.length-1; x++){
+		if(toDelete == update.favorites[x].url){
+			console.log(update.favorites);
+			update.favorites.splice(x,1);
+			console.log(update.favorites);
+		var stringSession = JSON.stringify(update);
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: stringSession}
+}
+
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = update;
+		}
+    }
+})
+     res.sendFile(__dirname + "/user_home.html");				
+		}
+	
+	}
+});
+
+
 app.post('/delete_feed',function(req,res){
 	var toDelete = req.body.feed;
 	var update = req.session.user;
@@ -193,22 +226,17 @@ app.post('/delete_feed',function(req,res){
 
 app.post('/add_favorites', function(req, res){
 	var usersession = req.session.user;
-    console.log("adding new feed");
-	/*
-	var newFeed = {};
-	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
-	newFeed["feed_name"] = req.body.feedName;
-	var newData = [];
-    for (x=0;x < req.body.new_feed_item.length; x++){
-		newData.push(req.body.new_feed_item[x]);
-    }
-	newFeed["sources"] = newData;
-	usersession.feeds[usersession.feeds.length] = newFeed;
+    console.log("adding new favorite");
 	
-	TO BE REPLACED WITH INFO DAVID WILL SEND UPON FAVORITE ADDING
-	*/ 
+	var newFave = {};
+	newFave["author"] = req.body.author;
+	newFave["description"] = req.body.description;
+	newFave["publishedAt"] = req.body.publishedAt;
+	newFave["title"] = req.body.title;
+	newFave["url"] = req.body.url;
+	newFave["urlToImage"] = req.body.urlToImage;
+	usersession.favorites[usersession.favorites.length] = newFave;
 	console.log(usersession);
-	req.session.user = usersession;
 	
 var stringSession = JSON.stringify(usersession);
 	var options = {
@@ -228,7 +256,7 @@ var stringSession = JSON.stringify(usersession);
 		}
     }
 })
-     res.sendFile(__dirname + "/favorites.html");
+     res.sendFile(__dirname + "/newsfeed.html");
 });
 
 
