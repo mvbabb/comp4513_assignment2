@@ -201,10 +201,6 @@ app.post('/', function(req,res){
 
     });
 
-
-
-
-
 app.post('/authentication_server', function(req,res){
     console.log("secure server accesed");
     var json = reader.readFileSync("user_info.json");

@@ -19,6 +19,8 @@ var reader = require('fs');
 var path = require('path');
 var app=express();
 var morgan = require('morgan');
+var atob = require('atob');
+var btoa = require('btoa');
 app.use(session({resave:false, saveUninitialized: true, secret:"secret"}));
 //app.set('port', 3001);
 app.use(express.static(path.join(__dirname)));
@@ -153,6 +155,64 @@ var stringSession = JSON.stringify(usersession);
      res.sendFile(__dirname + "/user_home.html");
 
 });
+
+app.post('/update_password', function(req, res){
+		var newPwd = btoa(req.body.psw);
+	var update = req.session.user;
+	update.password = newPwd;
+		var stringSession = JSON.stringify(update);
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: stringSession}
+}
+
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = update;
+		}
+    }
+})
+     res.sendFile(__dirname + "/user_home.html");			
+});
+
+app.post('/update_user', function(req, res){
+		var update = req.session.user;
+		var newPwd = btoa(req.body.psw);
+		if(newPwd == update.password){
+		update.user_name = atob(req.body.username);
+		var stringSession = JSON.stringify(update);
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: stringSession}
+}
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = update;
+		}
+    }
+})
+     res.sendFile(__dirname + "/user_home.html");
+		}else{
+		res.setHeader('Content-Type', 'application/json');
+		res.send(JSON.stringify({"token": "wrongPassword"}));
+		}	 
+});
+
+
+
+
 
 
 app.post('/delete_favorites',function(req,res){

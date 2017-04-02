@@ -276,18 +276,16 @@
     <div class="col-md-12"></div>
     <div class="col-md-12">
       <section class="login-form">
-        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+        <form method="post" action="http://localhost:3001/update_user" role="login">
           <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
             <h2 class="text-center">Update User Info</h2>
             <table class="table table-striped ">
-    <tr><td>UserName</td><td id="userName"> </td></tr>
-    <tr><td>Name</td><td id="u_name"> </td></tr>
 
 
 </table>
-          <input type="text" id="uname" placeholder="Enter Username" required class="form-control input-lg"name="uname" required>
+          <input type="text" id="uname" placeholder="Enter New Username" required class="form-control input-lg"name="username" required>
            <!-- <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="joestudent@gmail.com" />-->
-          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Password" required=""  name="psw">
+          <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Current Password" required=""  name="psw">
       
           <!--<input type="password" class="form-control input-lg" id="password" placeholder="Password" required="" />-->
           
@@ -328,7 +326,7 @@
     <div class="col-md-12"></div>
     <div class="col-md-12">
       <section class="login-form">
-        <form method="post" action="http://localhost:3002/authentication_server" role="login">
+        <form method="post" action="http://localhost:3001/update_password" role="login">
           <img src="http://localhost:3001/yln-logo" class="img-responsive" alt="" />
             <h2 class="text-center">Update Password</h2>
           <input type="password" id="unpwd" class="form-control input-lg" id="password" placeholder="Enter Password" required=""  name="psw">
