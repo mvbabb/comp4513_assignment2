@@ -154,6 +154,43 @@ var stringSession = JSON.stringify(usersession);
 
 });
 
+
+app.post('/delete_feed',function(req,res){
+	var toDelete = req.body.feed;
+	var update = req.session.user;
+	for(var x = 0; x < update.feeds.length-1; x++){
+		if(toDelete == update.feeds[x].feed_name){
+			console.log(update.feeds);
+			update.feeds.splice(x,1);
+			console.log(update.feeds);
+		var stringSession = JSON.stringify(update);
+		
+		
+	var options = {
+    url: 'http://localhost:3002/updateUser',
+    method: 'POST',
+    headers: headers,
+    form: {user: stringSession}
+}
+
+	request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        // Print out the response body
+		use = JSON.parse(body);
+		console.log(use.token);
+		if(use.token = "success"){
+			req.session.user = update;
+		}
+    }
+})
+     res.sendFile(__dirname + "/user_home.html");				
+		}
+	
+	}
+});
+
+
+
 app.post('/add_favorites', function(req, res){
 	var usersession = req.session.user;
     console.log("adding new feed");
@@ -209,6 +246,7 @@ request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
         // Print out the response body
 		console.log("I'm fucking doing it");
+		console.log(JSON.parse(body));
         req.session.user = JSON.parse(body);
 		res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
@@ -237,12 +275,6 @@ app.post('/feedRedirect',function(req,res){
 	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
 });
 
-/*
-app.post('/delete_feed',function(req,res){
-	var feedName = req.body.feed;
-	res.redirect("http://localhost:3001/newsfeed?feed="+feedName);
-});
-*/
 
 app.get('/logout',function(req,res){
 	req.session.destroy();

@@ -76,7 +76,7 @@ mongo.connect(url, function(err, db) {
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
 //-------------------COMMENT OUT THIS WHOLE SECTION AFTER RUNNING ONCE FOR STABLE DB
-    /*db.collection('users').deleteMany();
+db.collection('users').deleteMany();
 
 //populate with 2 basic users
     var jsonContent = JSON.parse(json);
@@ -84,7 +84,7 @@ mongo.connect(url, function(err, db) {
     db.collection('users').insertOne(jsonContent[x], function(err, result) {
       assert.equal(null, err);
     console.log('Item inserted');
-  })};*/
+  })};
   //-----------------------------------------------------------------
 
     collection.find().each(function(err, doc) {
