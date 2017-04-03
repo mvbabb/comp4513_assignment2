@@ -29,7 +29,6 @@
         <li><a href="http://localhost:3001/sources">Sources</a></li>
         <li><a href="http://localhost:3001/about">About</a></li>
                     <li><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
-          <li><a href="http://localhost:3001/secure">Settings</a></li>
                     <li><a href="http://localhost:3001/logout">Logout</a></li>
           
       </ul>
@@ -96,6 +95,62 @@
         
         <script>
             $(document).ready(function () {
+                
+                
+                
+                     $.ajax({
+                        url: "https://newsapi.org/v1/articles?source=buzzfeed&sortBy=top&apiKey=f507ff22dca54c43b92817017a34d613",
+                        dataType: 'json',
+                        type: 'GET',
+                        success: function (data) {
+                            var articleString = "";
+                            var articleTarget = document.querySelector("#newsFeed");
+                            var articles = data.articles;
+                            for (var i = 0; i < 4; i++) {
+                                var article = articles[i];
+
+                                
+                                 var articleHtmlString = "<div class='panel panel-default userPanel'>";
+                                articleHtmlString += "<div class='panel-body'>";
+                                articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                                articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                                articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                                articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
+                                articleHtmlString += "<p>" + article["description"] + "</p><div class='media-right'><form action='http://localhost:3001/add_favorites' method='post'>";
+                                articleHtmlString += "<input type='hidden' name='author' value='" + article["author"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='description' value='" + article["description"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='publishedAt' value='" + article["publishedAt"] + "'>";
+                                articleHtmlString += "<input type='hidden' name='title' value='" + article["title"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='url' value='" + article["url"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='urlToImage' value='" + article["urlToImage"] + "'>";
+                                articleHtmlString += "<button type='submit' id='btnSubmit' class='btn btn-md btn-info btn-block col-md'>Add Favorites</button></form></div>";
+                                articleHtmlString += "</div></div></div></div>";
+
+                                articleString += articleHtmlString;
+                
+                
+                            }$(articleString).insertAfter(articleTarget);
+                        }});
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                   $.ajax({
                         url: "https://newsapi.org/v1/sources?language=en",
@@ -170,6 +225,29 @@
                     
                 });
                 
+              /*  $.ajax({
+                        url: "http://localhost:3001/favorites",
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (data) { 
+                            var favorites = data.favorites;
+                            //console.log(favorites);
+                            var favoriteString = '';
+                           var favTarget = document.querySelector(".favList");
+                            var favString = '';
+                            for(var f = 0; f < favorites.length; f++){
+                                //console.log(favorites[f]);
+                                var favorite = favorites[f];
+
+                                favString += "<div class='media favItem'><form action='http://localhost:3001/delete_favorites' method='post'>";
+                                favString += "<input type='hidden' name='url' value='" + favorite.url + "'>";
+                                favString += "<div class='media-left'><button type='submit' id='btnSubmit' class='media-object btn btn-xs btn-danger btn-block col-md '>X</button></div>";
+                                favString += "</form><div class='media-body'><h2><a href='" + favorite.url + "' target='_blank'>" + favorite.title + "</a></h2></div></div>";
+                                
+                            }
+                            favoriteString += favString;
+                            $(favoriteString).appendTo(favTarget);
+                        }});*/
                 
                 
                 
@@ -182,11 +260,12 @@
     <button type="button"  class="button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#createFeedModal">Create a New Feed</button>
     <button type="button"  class="button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#updateUser">Update User</button>
     <button type="button"  class=" button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#updatePassword">Update Password</button>
+    <!--<button type="button"  class=" button-spacing btn btn-info btn-lg" data-toggle="modal" data-target="#favStories">Favorite Stories</button>-->
     
     <hr/></div>
 <div class="row">
     <div class="jumbotron">
-        <h1>Random Stories of the Day</h1>
+        <h1>Daily Dose of BuzzFeed</h1>
     
     </div>
     
@@ -355,78 +434,42 @@
     </div>
 
   </div>
+    
+    
+        
+    <div id="favStories" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Your Favorite Stories</h4>
+      </div>
+      <div class="modal-body">
+    <!--<div class="container">-->
+  <div class="row login-popup" id="pwd-container">
+    <div class="col-md-12"></div>
+    <div class="col-md-12 favList" >
+        
 
+      </div>
+  </div>
+  
+</div>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
     
     
-                  <div class="panel panel-default userPanel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
-                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
-                            </div>
-                        </div>
-                                                
-                    </div>
-                </div>
-                    <div class="panel panel-default userPanel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
-                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
-                            </div>
-                        </div>
     
-                    </div>
-                </div>
-                    <div class="panel panel-default userPanel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
-                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-                    <div class="panel panel-default userPanel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
-                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
-                            </div>
-                        </div>
-                                                 
-                    </div>
-                </div>
-                    <div class="panel panel-default userPanel">
-                    <div class="panel-body">
-                        <div class="media">
-                            <div class="media-left media-middle">
-                                <img src="https://tctechcrunch2011.files.wordpress.com/2017/03/solar-panel-tesla-kauai.jpg?w=764&h=400&crop=1" class="media-object" style="width:100px">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="https://techcrunch.com/2017/03/10/teslas-kauai-solar-storage-facility-offers-a-glimpse-of-the-companys-future/">Tesla's Kauai solar storage facility offers a glimpse of the company's future</a></h4>
-                                <p>Tesla's solar installation on the Hawaiian island of Kauai is not just a product launch of the company - it's the first real proof the company's offering up..</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    
+
+    <div id="newsFeed">
+    </div>
     
     
 </div>
@@ -453,12 +496,6 @@
       <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
     </div>
       <p class="text-right powered-by">Powered by: <a href="newsapi.org">NewsApi.org</a></p>
-   <!-- <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
-    </ul>-->
   </div>
 </nav> 
     </footer>

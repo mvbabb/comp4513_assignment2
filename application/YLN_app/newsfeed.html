@@ -61,6 +61,8 @@
                         $('#newsFeed').html("");
                     }
 
+                              
+                    
                     var articlesPrint = [];
                     $.ajax({
                         url: "https://newsapi.org/v1/articles?source=" + source + "&apiKey=f507ff22dca54c43b92817017a34d613",
@@ -76,8 +78,15 @@
                                 articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
                                 articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
                                 articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
-                                articleHtmlString += "<a href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
-                                articleHtmlString += "<p>" + article["description"] + "</p>";
+                                articleHtmlString += "<a href='" + article["url"] + "' target='_blank'>" + article["title"] + "</a></h4>";
+                                articleHtmlString += "<p>" + article["description"] + "</p><div class='media-right'><form action='http://localhost:3001/add_favorites' method='post'>";
+                                articleHtmlString += "<input type='hidden' name='author' value='" + article["author"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='description' value='" + article["description"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='publishedAt' value='" + article["publishedAt"] + "'>";
+                                articleHtmlString += "<input type='hidden' name='title' value='" + article["title"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='url' value='" + article["url"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='urlToImage' value='" + article["urlToImage"] + "'>";
+                                articleHtmlString += "<button type='submit' id='btnSubmit' class='btn btn-md btn-info btn-block col-md'>Add Favorites</button></form></div>";
                                 articleHtmlString += "</div></div></div></div>";
                                 articlesPrint.push(articleHtmlString);
                             }
@@ -239,13 +248,20 @@
                         for (var i = 0; i < leng; i++) { //prints randomized articles
                             var article = articlePool[i];
                             var articleHtmlString = "<div class='panel panel-default'>";
-                            articleHtmlString += "<div class='panel-body'>";
-                            articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
-                            articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
-                            articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
-                            articleHtmlString += "<a target='_blank' href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
-                            articleHtmlString += "<p>" + article["description"] + "</p>";
-                            articleHtmlString += "</div></div></div></div>";
+                           articleHtmlString += "<div class='panel-body'>";
+                                articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                                articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                                articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                                articleHtmlString += "<a href='" + article["url"] + "' target='_blank'>" + article["title"] + "</a></h4>";
+                                articleHtmlString += "<p>" + article["description"] + "</p><div class='media-right'><form action='http://localhost:3001/add_favorites' method='post'>";
+                                articleHtmlString += "<input type='hidden' name='author' value='" + article["author"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='description' value='" + article["description"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='publishedAt' value='" + article["publishedAt"] + "'>";
+                                articleHtmlString += "<input type='hidden' name='title' value='" + article["title"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='url' value='" + article["url"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='urlToImage' value='" + article["urlToImage"] + "'>";
+                                articleHtmlString += "<button type='submit' id='btnSubmit' class='btn btn-md btn-info btn-block col-md'>Add Favorites</button></form></div>";
+                                articleHtmlString += "</div></div></div></div>";
                             printArticles.push(articleHtmlString);
                         }
                         //$('#newsFeed').html(htmlString);
@@ -356,13 +372,20 @@
                     for (var i = 0; i < leng; i++) { //prints randomized articles
                         var article = window.mainArticles[i];
                         var articleHtmlString = "<div class='panel panel-default'>";
-                        articleHtmlString += "<div class='panel-body'>";
-                        articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
-                        articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
-                        articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
-                        articleHtmlString += "<a target='_blank' href='" + article["url"] + "'>" + article["title"] + "</a></h4>";
-                        articleHtmlString += "<p>" + article["description"] + "</p>";
-                        articleHtmlString += "</div></div></div></div>";
+                       articleHtmlString += "<div class='panel-body'>";
+                                articleHtmlString += "<div class='media'><div class='media-left media-middle'>";
+                                articleHtmlString += "<img src='" + article["urlToImage"] + "' class='media-object' style='width:100px'></div>";
+                                articleHtmlString += "<div class='media-body'><h4 class='media-heading'>";
+                                articleHtmlString += "<a href='" + article["url"] + "' target='_blank'>" + article["title"] + "</a></h4>";
+                                articleHtmlString += "<p>" + article["description"] + "</p><div class='media-right'><form action='http://localhost:3001/add_favorites' method='post'>";
+                                articleHtmlString += "<input type='hidden' name='author' value='" + article["author"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='description' value='" + article["description"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='publishedAt' value='" + article["publishedAt"] + "'>";
+                                articleHtmlString += "<input type='hidden' name='title' value='" + article["title"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='url' value='" + article["url"] + "'>";
+                                 articleHtmlString += "<input type='hidden' name='urlToImage' value='" + article["urlToImage"] + "'>";
+                                articleHtmlString += "<button type='submit' id='btnSubmit' class='btn btn-md btn-info btn-block col-md'>Add Favorites</button></form></div>";
+                                articleHtmlString += "</div></div></div></div>";
                         printArticles.push(articleHtmlString);
                     }
                     //$('#newsFeed').html(htmlString);
@@ -442,18 +465,35 @@ function scrollToTop() {
 	$('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
 }
 
+                
+                
+            $.ajax({
+                        url: "http://localhost:3001/favorites",
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (data) { 
+                            var favorites = data.favorites;
+                            //console.log(favorites);
+                            var favoriteString = '';
+                           var favTarget = document.querySelector(".favList");
+                            var favString = '';
+                            for(var f = 0; f < favorites.length; f++){
+                                //console.log(favorites[f]);
+                                var favorite = favorites[f];
+                                favString += "<li class='favItem'><form action='http://localhost:3001/delete_favorites' method='post'>";
+                                favString += "<input type='hidden' name='url' value='" + favorite.url + "'>";
+                                favString += "<button type='submit' id='btnSubmit' class='btn btn-xs btn-danger btn-block col-md deleteFav'>X</button>";
+                                favString += "</form><a href='" + favorite.url + "' target='_blank'>" + favorite.title + "</a></li>";
+                                
+                            }
+                            favoriteString += favString;
+                            $(favoriteString).appendTo(favTarget);
+                        }});
+                
+                
+                
+                
             });
-
-
-
-
-
-
-
-
-
-
-
 
         </script>
     </head>
@@ -548,7 +588,6 @@ function scrollToTop() {
                             <li><a href="http://localhost:3001/sources">Sources</a></li>
                             <li ><a href="http://localhost:3001/about">About</a></li>
                             <li class="active"><a href="http://localhost:3001/newsfeed">NewsFeed</a></li>
-                            <li><a href="http://localhost:3001/secure">Settings</a></li>
                             <li><a href="http://localhost:3001/logout">Logout</a></li>
                         </ul>
             <ul class="nav navbar-nav side-nav">
@@ -573,9 +612,8 @@ function scrollToTop() {
                 </li>
                                 <li>
                     <a href="#" data-toggle="collapse" data-target="#submenu-3"><i class="fa fa-fw fa-star"></i>  Favorite Stories <i class="fa fa-fw fa-angle-down pull-right"></i></a>
-                    <ul id="submenu-3" class="collapse">
-                    <li><a href="#">Test story one</a></li>
-                    <li><a href="#">Test story two</a></li>
+                    <ul id="submenu-3" class="collapse favList scrollable-menu">
+
                     </ul>
                 </li>
 
@@ -639,12 +677,6 @@ function scrollToTop() {
                         <a class="navbar-brand" href="#"><img src="../YLN_app/YourLiveNews_White.png"></a>
                     </div>
                     <p class="text-right powered-by">Powered by: <a href="newsapi.org">NewsApi.org</a></p>
-                    <!-- <ul class="nav navbar-nav">
-                       <li class="active"><a href="#">Home</a></li>
-                       <li><a href="#">Page 1</a></li>
-                       <li><a href="#">Page 2</a></li>
-                       <li><a href="#">Page 3</a></li>
-                     </ul>-->
                 </div>
             </nav>
         </footer>

@@ -216,9 +216,10 @@ app.post('/update_user', function(req, res){
 
 
 app.post('/delete_favorites',function(req,res){
+    console.log("Deleting Favorites");
 	var toDelete = req.body.url;
 	var update = req.session.user;
-	for(var x = 0; x < update.favorites.length-1; x++){
+	for(var x = 0; x < update.favorites.length; x++){
 		if(toDelete == update.favorites[x].url){
 			console.log(update.favorites);
 			update.favorites.splice(x,1);
@@ -241,10 +242,12 @@ app.post('/delete_favorites',function(req,res){
 		}
     }
 })
-     res.sendFile(__dirname + "/user_home.html");				
+     //res.sendFile(__dirname + "/user_home.html");	
+    
 		}
 	
 	}
+    res.redirect("http://localhost:3001/newsfeed");
 });
 
 
@@ -316,7 +319,8 @@ var stringSession = JSON.stringify(usersession);
 		}
     }
 })
-     res.sendFile(__dirname + "/newsfeed.html");
+     //res.sendFile(__dirname + "/newsfeed.html"); I CHANGED THIS
+    res.redirect("http://localhost:3001/newsfeed");
 });
 
 

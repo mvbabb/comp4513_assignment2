@@ -320,3 +320,5 @@ form[role=login] {
 .navbar-brand {
     padding: 5px 15px;
 }
+.deleteFav{max-width:10%; position:relative; top:50px; z-index: 99999999999999999999999; margin-left: 1%;}
+.favItem{margin-left: 5%;}
