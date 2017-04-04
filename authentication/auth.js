@@ -146,10 +146,31 @@ app.get('/app_list', function(req,res){
 
 app.post('/', function(req,res){
     console.log("secure server");
-    var text = "normal123";
-    text = btoa(text);
-    console.log("BtoA test: "+text);
+    //var text = "normal123";
 
+    getAllUserData(function(err, result){
+      var JSONresult = JSON.parse(result);
+      var user_name_node=req.body.uname;
+      var password_node=req.body.psw;
+      var cont = "false";
+      console.log("new login test: "+user_name_node+", "+password_node);
+        for(x in JSONresult.users){
+          //console.log("loop test: "+JSONresult.users[x].user_name);
+          if(atob(JSONresult.users[x].user_name) == user_name_node && atob(JSONresult.users[x].password) == password_node){
+            cont="true";
+            console.log("Username and pass matched!");
+
+          }
+        }
+
+        if(cont == "true"){
+          res.redirect("http://localhost:3001/home");
+        }else{
+          res.redirect("http://localhost:3001");
+        }
+
+    });
+/*
     var json = reader.readFileSync("user_info.json");
     var jsonContent = JSON.parse(json);
     for(x in jsonContent){
@@ -198,7 +219,7 @@ app.post('/', function(req,res){
               res.redirect("http://localhost:3001");
 
             };
-
+*/
     });
 
 app.post('/authentication_server', function(req,res){
@@ -370,7 +391,7 @@ var cont="true";
       actual_name+'", "token":"coolAssToken", "logToken":"false", "level":"regular", "feeds" : [{ "feed_id":"0001", "feed_name":"default", "sources": [ "bbc-news", "buzzfeed", "cnn"] }], "favorites" : [] }';
       //console.log("new user test== "+JSON.stringify(jsonContent));
       newString = '{"user1":'+JSON.stringify(jsonContent2.user1)+',"user2":'+JSON.stringify(jsonContent2.user2)+',"user3":'+NewMongoUser+'}';
-      reader.writeFileSync("user_info.json",newString);
+      //reader.writeFileSync("user_info.json",newString);
 
       var newUserJSON = JSON.parse(NewMongoUser); //needs to be JSON
       mongo.connect(url, function(err, db) {
