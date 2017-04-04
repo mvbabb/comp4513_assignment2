@@ -122,7 +122,8 @@ app.post('/new_feed', function(req, res){
 	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
 	newFeed["feed_name"] = req.body.feedName;
 	var newData = [];
-    for (x=0;x < req.body.new_feed_item.length; x++){
+	console.log("LENGTH: " + req.body.new_feed_item.length);
+    for (var x=0;x < req.body.new_feed_item.length; x++){
 		newData.push(req.body.new_feed_item[x]);
     }
 	newFeed["sources"] = newData;
