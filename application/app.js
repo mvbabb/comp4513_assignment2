@@ -117,6 +117,7 @@ app.post('/saveUsername',function(req,res){
 app.post('/new_feed', function(req, res){
 	var usersession = req.session.user;
     console.log("adding new feed");
+	console.log(req.body.new_feed_item);
 	var newFeed = {};
 	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
 	newFeed["feed_name"] = req.body.feedName;
