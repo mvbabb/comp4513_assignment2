@@ -255,7 +255,7 @@ app.post('/delete_favorites',function(req,res){
 app.post('/delete_feed',function(req,res){
 	var toDelete = req.body.feed;
 	var update = req.session.user;
-	for(var x = 0; x < update.feeds.length-1; x++){
+	for(var x = 0; x < update.feeds.length; x++){
 		if(toDelete == update.feeds[x].feed_name){
 			console.log(update.feeds);
 			update.feeds.splice(x,1);
