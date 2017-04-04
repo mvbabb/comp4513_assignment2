@@ -116,26 +116,21 @@ app.post('/saveUsername',function(req,res){
 
 app.post('/new_feed', function(req, res){
 	var usersession = req.session.user;
-    console.log("adding new feed");
-	console.log(req.body.new_feed_item);
 	var newFeed = {};
 	newFeed["feed_id"] = "000"+(usersession.feeds.length+1);
 	newFeed["feed_name"] = req.body.feedName;
-	var newData = [];
-	console.log("LENGTH: " + req.body.new_feed_item.length);
+	var newData = []
     for (var x=0;x < req.body.new_feed_item.length; x++){
 		newData.push(req.body.new_feed_item[x]);
     }
 	console.log(newData);
 	newFeed["sources"] = newData;
 	usersession.feeds[usersession.feeds.length] = newFeed;
-	console.log(usersession);
-
 	var headers = {
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
 }
-var stringSession = JSON.stringify(usersession);
+	var stringSession = JSON.stringify(usersession);
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
@@ -144,10 +139,9 @@ var stringSession = JSON.stringify(usersession);
 }
 
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
-		console.log(use.token);
 		if(use.token = "success"){
 				req.session.user = usersession;
 		}
@@ -172,10 +166,9 @@ app.post('/update_password', function(req, res){
 }
 
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
-		console.log(use.token);
 		if(use.token = "success"){
 			req.session.user = update;
 		}
@@ -190,6 +183,7 @@ app.post('/update_user', function(req, res){
 		if(newPwd == update.password){
 		update.user_name = atob(req.body.username);
 		var stringSession = JSON.stringify(update);
+		
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
@@ -197,10 +191,9 @@ app.post('/update_user', function(req, res){
     form: {user: stringSession}
 }
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
-		console.log(use.token);
 		if(use.token = "success"){
 			req.session.user = update;
 		}
@@ -214,19 +207,12 @@ app.post('/update_user', function(req, res){
 });
 
 
-
-
-
-
 app.post('/delete_favorites',function(req,res){
-    console.log("Deleting Favorites");
 	var toDelete = req.body.url;
 	var update = req.session.user;
 	for(var x = 0; x < update.favorites.length; x++){
 		if(toDelete == update.favorites[x].url){
-			console.log(update.favorites);
 			update.favorites.splice(x,1);
-			console.log(update.favorites);
 		var stringSession = JSON.stringify(update);
 	var options = {
     url: 'http://localhost:3002/updateUser',
@@ -236,10 +222,9 @@ app.post('/delete_favorites',function(req,res){
 }
 
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
-		console.log(use.token);
 		if(use.token = "success"){
 			req.session.user = update;
 		}
@@ -259,12 +244,8 @@ app.post('/delete_feed',function(req,res){
 	var update = req.session.user;
 	for(var x = 0; x < update.feeds.length; x++){
 		if(toDelete == update.feeds[x].feed_name){
-			console.log(update.feeds);
-			update.feeds.splice(x,1);
-			console.log(update.feeds);
+			update.feeds.splice(x,1);	
 		var stringSession = JSON.stringify(update);
-		
-		
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
@@ -273,10 +254,9 @@ app.post('/delete_feed',function(req,res){
 }
 
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
-		console.log(use.token);
 		if(use.token = "success"){
 			req.session.user = update;
 		}
@@ -284,7 +264,6 @@ app.post('/delete_feed',function(req,res){
 })
      res.sendFile(__dirname + "/user_home.html");				
 		}
-	
 	}
 });
 
@@ -292,7 +271,6 @@ app.post('/delete_feed',function(req,res){
 
 app.post('/add_favorites', function(req, res){
 	var usersession = req.session.user;
-    console.log("adding new favorite");
 	
 	var newFave = {};
 	newFave["author"] = req.body.author;
@@ -313,7 +291,7 @@ var stringSession = JSON.stringify(usersession);
 }
 
 	request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		use = JSON.parse(body);
 		console.log(use.token);
@@ -338,29 +316,25 @@ var options = {
 }
 // Start the request
 request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200 && body) {
         // Print out the response body
 		console.log("I'm fucking doing it");
-		console.log(JSON.parse(body));
-        req.session.user = JSON.parse(body);
+		var updated = JSON.parse(body);
+        req.session.user = updated;
 		res.setHeader('Content-Type', 'application/json');
 		res.send(JSON.stringify({"token": "success"}));
     }
 })
-
-
 });
 
 app.post('/favorites',function(req,res){
   var userdata = req.session.user;
-	console.log(userdata.favorites);
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "favorites":userdata.favorites}));
 });
 
 app.post('/feeds',function(req,res){
 	var userdata = req.session.user;
-	console.log(userdata.feeds);
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "feeds":userdata.feeds}));
 });
@@ -378,14 +352,12 @@ app.get('/logout',function(req,res){
 
 app.post('/loggedIn',function(req,res){
   var userdata = req.session.user;
-	console.log(userdata.logToken);
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "logToken":userdata.logToken}));
 });
 
 app.post('/user_name',function(req,res){
   var userdata = req.session.user;
-	console.log(userdata.user_name);
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({"token": "success", "user_name":userdata.user_name}));
 
