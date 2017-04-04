@@ -126,10 +126,11 @@ app.post('/new_feed', function(req, res){
     for (var x=0;x < req.body.new_feed_item.length; x++){
 		newData.push(req.body.new_feed_item[x]);
     }
+	console.log(newData);
 	newFeed["sources"] = newData;
 	usersession.feeds[usersession.feeds.length] = newFeed;
 	console.log(usersession);
-	req.session.user = usersession;
+
 	var headers = {
     'User-Agent':       'MADS/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded'
@@ -148,7 +149,7 @@ var stringSession = JSON.stringify(usersession);
 		use = JSON.parse(body);
 		console.log(use.token);
 		if(use.token = "success"){
-			req.session.user = usersession;
+				req.session.user = usersession;
 		}
 		//res.setHeader('Content-Type', 'application/json');
 		//res.send(JSON.stringify({"token": "success"}));
