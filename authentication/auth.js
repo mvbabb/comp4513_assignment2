@@ -270,13 +270,13 @@ app.post('/getInfo',function(req,res,next){
 });
 
 app.post('/updateUser',function(req,res,next){
-console.log("inside updateUser: "+req.body.user);
+//console.log("inside updateUser: "+req.body.user);
   var JSONUpUser = JSON.parse(req.body.user);
 
   var user2find = JSONUpUser.user_name;
   var pass2find = JSONUpUser.password;
 
-  console.log("updateUser test: "+user2find+", "+pass2find);
+  //console.log("updateUser test: "+user2find+", "+pass2find);
   getOneUserData(user2find, pass2find, function(err, result){
     if(result){
       var JSONres = JSON.parse(result);
@@ -284,10 +284,10 @@ console.log("inside updateUser: "+req.body.user);
       var IDtochange = JSONres._id;
       mongo.connect(url, function(err, db) {
           assert.equal(null, err);
-          console.log("result exists! ID: "+IDtochange);
+          //console.log("result exists! ID: "+IDtochange);
           db.collection('users').replaceOne({user_name: user2find}, JSONUpUser, function(err, result) {
             assert.equal(null, err);
-            console.log('User updated '+JSON.stringify(JSONUpUser));
+            console.log('User updated ');
             db.close();
             res.send({"token":"success"});
           });
