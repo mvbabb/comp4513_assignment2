@@ -274,8 +274,11 @@ app.post('/updateUser',function(req,res,next){
   var JSONUpUser = JSON.parse(req.body.user);
 
   var user2find = JSONUpUser.user_name;
-  var pass2find = JSONUpUser.password;
-
+  if(req.body.old){
+		var pass2find = req.body.old;
+  }else{
+		var pass2find = JSONUpUser.password;
+  }
   //console.log("updateUser test: "+user2find+", "+pass2find);
   getOneUserData(user2find, pass2find, function(err, result){
     if(result){

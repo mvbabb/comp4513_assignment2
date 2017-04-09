@@ -156,13 +156,16 @@ app.post('/new_feed', function(req, res){
 app.post('/update_password', function(req, res){
 		var newPwd = btoa(req.body.psw);
 	var update = req.session.user;
+	console.log(update.password);
+	var oldPwd = update.password;
 	update.password = newPwd;
 		var stringSession = JSON.stringify(update);
+	
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
     headers: headers,
-    form: {user: stringSession}
+    form: {user: stringSession, old: oldPwd}
 }
 
 	request(options, function (error, response, body) {
