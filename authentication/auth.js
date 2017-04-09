@@ -273,7 +273,12 @@ app.post('/updateUser',function(req,res,next){
 //console.log("inside updateUser: "+req.body.user);
   var JSONUpUser = JSON.parse(req.body.user);
 
-  var user2find = JSONUpUser.user_name;
+  if(req.body.oldUser){
+		var user2find = req.body.oldUser;
+  }else{
+		var user2find = JSONUpUser.user_name; 
+  }
+  
   if(req.body.old){
 		var pass2find = req.body.old;
   }else{

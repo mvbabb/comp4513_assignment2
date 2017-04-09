@@ -182,16 +182,18 @@ app.post('/update_password', function(req, res){
 
 app.post('/update_user', function(req, res){
 		var update = req.session.user;
+		console.log(update.user_name);
+		var old = update.user_name;
 		var newPwd = btoa(req.body.psw);
 		if(newPwd == update.password){
-		update.user_name = atob(req.body.username);
+		update.user_name = btoa(req.body.username);
 		var stringSession = JSON.stringify(update);
 		
 	var options = {
     url: 'http://localhost:3002/updateUser',
     method: 'POST',
     headers: headers,
-    form: {user: stringSession}
+    form: {user: stringSession, oldUser: old}
 }
 	request(options, function (error, response, body) {
     if (!error && response.statusCode == 200 && body) {
