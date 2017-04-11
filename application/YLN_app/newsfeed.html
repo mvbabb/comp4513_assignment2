@@ -320,6 +320,7 @@
                             var feedTarget = document.querySelector(".feedList");
                             var feedHTMLString = "";
                             var feed = undefined;
+                            $('.feedList').html("");
                             for (var i = 0; i < data.feeds.length; i++) {
                                 var source = data.feeds[i];
                                 var sourceHtmlString = '<li><a class="feedLink" title="' + source.feed_id + '">' + source.feed_name + '</a></li>';
