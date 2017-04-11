@@ -37,8 +37,6 @@ app.use(bodyParse.urlencoded({extended:false}));
 var assert = require('assert');
 var url = "mongodb://localhost:27017/YLN";
 app.use(morgan('dev'));
-// "_id" : "0100",
-//mongo will auto-set the _key field if I dont.
 //if username and password match, save that ID on login
 var exampleUser= {"user_name" : "user1", "password":"pass",
 "name":"Michael", "token":"coolAssToken", "logToken":"true", "level":"admin",
@@ -68,10 +66,6 @@ mongo.connect(url, function(err, db) {
     db.createCollection('users', function(err, collection) {});
     var collection = db.collection('users');
     var lotsOfDocs = [{'hello':'doc3', 'key':'4'}, {'hello':'doc4', 'key':'5'}];
-    //collection.insert(exampleUser);
-    //collection.insert(doc2, {w:1}, function(err, result) {});
-    //find().each will grab the whole thing
-    //find().next will grab one at a time
     var json = reader.readFileSync("user_info.json");
 
 //-------------USE TO CLEAR and populate WHOLE DB FOR FRESH RUN-----------------
@@ -170,56 +164,7 @@ app.post('/', function(req,res){
         }
 
     });
-/*
-    var json = reader.readFileSync("user_info.json");
-    var jsonContent = JSON.parse(json);
-    for(x in jsonContent){
-      //console.log("Json Content[x]-> "+JSON.stringify(jsonContent[x]));
 
-    };
-
-    var tokens = reader.readFileSync("app_token.json");
-    var appContent = JSON.parse(tokens);
-    var user_name_node=req.body.uname;
-    var password_node=req.body.psw;
-    console.log("Username:" + user_name_node + " Password:" + password_node);
-    var authResponse = "false";
-
-    for(x in jsonContent){
-        jsonContent[x].logToken = "false"; //may not be nessecary any more
-    }
-
-    for (x in jsonContent){
-      if (atob(jsonContent[x].user_name) == user_name_node){
-          if(password_node == atob(jsonContent[x].password)){
-            authResponse = "true";
-          }
-
-          if(authResponse == "true"){
-              jsonContent[x].logToken = "true";
-              jsonContent = JSON.stringify(jsonContent);
-              reader.writeFileSync("user_info.json",jsonContent);
-			  //-----------------------------------------------------------------
-
-
-			  //---------------------------------------------------------------------
-                     res.redirect("http://localhost:3001/home");
-              }
-
-          else{
-
-              res.redirect("http://localhost:3001");
-
-            }
-              }
-
-        };
-    if(authResponse == "false"){
-
-              res.redirect("http://localhost:3001");
-
-            };
-*/
     });
 
 app.post('/authentication_server', function(req,res){
@@ -257,11 +202,9 @@ app.post('/authentication_server', function(req,res){
 app.post('/getInfo',function(req,res,next){
 	//Andrew:
 	console.log("inside getInfo: "+req.body.user_name + req.body.pass);
-	//should return specific user based on username and password (these work and have been test )
   var user2find = btoa(req.body.user_name);
   var pass2find = btoa(req.body.pass);
   getOneUserData(user2find, pass2find, function(err, result){
-    //var session = result;
     res.setHeader('Content-Type', 'application/json');
     res.send(result);
   });//end getOneUserData callback
@@ -276,9 +219,9 @@ app.post('/updateUser',function(req,res,next){
   if(req.body.oldUser){
 		var user2find = req.body.oldUser;
   }else{
-		var user2find = JSONUpUser.user_name; 
+		var user2find = JSONUpUser.user_name;
   }
-  
+
   if(req.body.old){
 		var pass2find = req.body.old;
   }else{
@@ -292,7 +235,6 @@ app.post('/updateUser',function(req,res,next){
       var IDtochange = JSONres._id;
       mongo.connect(url, function(err, db) {
           assert.equal(null, err);
-          //console.log("result exists! ID: "+IDtochange);
           db.collection('users').replaceOne({user_name: user2find}, JSONUpUser, function(err, result) {
             assert.equal(null, err);
             console.log('User updated ');
@@ -301,7 +243,6 @@ app.post('/updateUser',function(req,res,next){
           });
         });
     }
-//sdfasdfdgfg
 
   });//end getOneUserData callback
 
@@ -315,14 +256,12 @@ function getOneUserData(user, pw, callback){
     var cursor = db.collection('users').find();
     cursor.forEach(function(doc, err) {
       assert.equal(null, err);
-      //console.log("indiv doc test: "+JSON.stringify(doc));
       resultArray.push(doc);
 
     }, function() {
       db.close();
       stringResp = JSON.stringify(resultArray);
-      newJSON= JSON.parse('{"users":'+stringResp+'}'); //had to add this to avoid parsing issues
-      //console.log("single array entry test : "+resultArray);
+      newJSON= JSON.parse('{"users":'+stringResp+'}');
       var found = false;
       var toReturn = "";
       for(x in newJSON.users){
@@ -352,8 +291,7 @@ function getAllUserData(callback){
     }, function() {
       db.close();
       stringResp = JSON.stringify(resultArray);
-      newJSON= '{"users":'+stringResp+'}'; //had to add this to avoid parsing issues
-      //console.log("single array entry test : "+resultArray);
+      newJSON= '{"users":'+stringResp+'}';
       callback(null, newJSON);
     }
   );
@@ -378,7 +316,6 @@ var cont="true";
     var actual_name = req.body.actualname;
     //console.log("JSON test: "+JSONresult.users[0].user_name);
       for(x in JSONresult.users){
-        //console.log("loop test: "+JSONresult.users[x].user_name);
         if(JSONresult.users[x].user_name == user_name_node){
           cont="false";
           console.log("username already exists, cancelling new user");
@@ -564,7 +501,6 @@ app.post('/modify_admin', function(req,res){
     jsonContent[userToModify].user_name = user;
     console.log(jsonContent);
     jsonContent = JSON.stringify(jsonContent);
-    //console.log("Username:" + user_name_node + " Password:" + password_node);
     reader.writeFileSync("user_info.json",jsonContent);
 
     res.redirect("http://localhost:3002/secure");
